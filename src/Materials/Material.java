@@ -1,5 +1,15 @@
 package Materials;
 
-public abstract class Material {
+import Utility.Color;
+import Utility.Intersection;
+import Utility.Ray;
 
+public abstract class Material {
+	Color color;
+	
+	protected Material(Color color) {
+		this.color = color;
+	}
+	
+	abstract public Ray scatter(final Ray incoming, final Intersection intersection, final float sceneIndex);
 }
