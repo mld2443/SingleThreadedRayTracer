@@ -13,7 +13,7 @@ import Utility.Vector;
  * @see <a href="https://en.wikipedia.org/wiki/Plane_(geometry)">Wikipedia</a>
  */
 public class Plane extends Shape {
-	Vector normal;
+	public final Vector normal;
 
 	public Plane(final Material material, final Vector position, final Vector normal) {
 		super(material, position);
