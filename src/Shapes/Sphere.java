@@ -4,8 +4,10 @@ import Materials.Material;
 import Utility.Vector;
 
 /**
+ * A sphere is just a Quadric with a special simple normal function
  * 
  * @author mld2443
+ * @see Shapes.Quadric
  */
 public class Sphere extends Quadric {
 
@@ -14,7 +16,7 @@ public class Sphere extends Quadric {
 	}
 	
 	/**
-	 * Computes the normal of a point on a sphere
+	 * Computes the normal of a point on a sphere without computing the generic derivative
 	 * @param p point on the sphere
 	 * @return normal of a sphere
 	 */
