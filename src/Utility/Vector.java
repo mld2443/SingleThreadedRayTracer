@@ -13,7 +13,22 @@ public final class Vector {
 	public final float x, y, z;
 	private final static Random gen = new Random();
 
-	Vector(final float x, final float y, final float z) {
+	/**
+	 * Default constructor which creates <0,0,0>
+	 */
+	public Vector() {
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+	}
+	
+	/**
+	 * Primary constructor to make a new Vector <x,y,z>
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Vector(final float x, final float y, final float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -128,5 +143,10 @@ public final class Vector {
 	 */
 	public static Vector cross(final Vector lhs, final Vector rhs) {
 		return new Vector(lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x);
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("<%.2f,%.2f,%.2f>", x, y, z);
 	}
 }
