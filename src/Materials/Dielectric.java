@@ -5,15 +5,15 @@ import Utility.Intersection;
 import Utility.Ray;
 
 public class Dielectric extends Material {
-	float refractionIndex;
+	private final float refractionIndex;
 
-	public Dielectric(Color color, final float refractionIndex) {
+	public Dielectric(final Color color, final float refractionIndex) {
 		super(color);
 		this.refractionIndex = refractionIndex;
 	}
 
 	@Override
-	public Ray scatter(Ray incoming, Intersection intersection, float sceneIndex) {
+	public Ray scatter(final Ray incoming, final Intersection intersection, final float sceneIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}

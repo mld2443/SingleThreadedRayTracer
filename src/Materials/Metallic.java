@@ -5,15 +5,15 @@ import Utility.Intersection;
 import Utility.Ray;
 
 public class Metallic extends Material {
-	float fuzz;
+	private final float fuzz;
 
-	public Metallic(Color color, final float fuzz) {
+	public Metallic(final Color color, final float fuzz) {
 		super(color);
 		this.fuzz = fuzz;
 	}
 
 	@Override
-	public Ray scatter(Ray incoming, Intersection intersection, float sceneIndex) {
+	public Ray scatter(final Ray incoming, final Intersection intersection, final float sceneIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}

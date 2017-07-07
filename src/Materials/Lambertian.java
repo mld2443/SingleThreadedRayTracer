@@ -6,12 +6,12 @@ import Utility.Ray;
 
 public class Lambertian extends Material {
 
-	public Lambertian(Color color) {
+	public Lambertian(final Color color) {
 		super(color);
 	}
 
 	@Override
-	public Ray scatter(Ray incoming, Intersection intersection, float sceneIndex) {
+	public Ray scatter(final Ray incoming, final Intersection intersection, final float sceneIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}

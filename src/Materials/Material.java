@@ -5,7 +5,7 @@ import Utility.Intersection;
 import Utility.Ray;
 
 public abstract class Material {
-	Color color;
+	final Color color;
 	
 	protected Material(Color color) {
 		this.color = color;
