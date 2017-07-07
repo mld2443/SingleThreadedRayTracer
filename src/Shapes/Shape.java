@@ -21,5 +21,5 @@ public abstract class Shape {
 	 * @param frustum range within to register a collision
 	 * @return the closest intersection if there is one within range, otherwise null
 	 */
-	abstract public Intersection intersectRay(final Ray r, final Range frustum);
+	abstract public Intersection intersectRay(final Ray r, final Range<Float> frustum);
 }

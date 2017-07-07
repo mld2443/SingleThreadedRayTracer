@@ -21,7 +21,7 @@ public class Plane extends Shape {
 	}
 
 	@Override
-	public Intersection intersectRay(final Ray r, final Range frustum) {
+	public Intersection intersectRay(final Ray r, final Range<Float> frustum) {
 		// TODO Auto-generated method stub
 		return null;
 	}
