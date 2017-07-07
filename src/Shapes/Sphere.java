@@ -29,13 +29,9 @@ public class Sphere extends Quadric {
 	/**
 	 * Shortcut normal function that computes the normal of a point on a sphere
 	 * without computing the generic derivative.
-	 * 
-	 * @param p
-	 *            point on the sphere
-	 * @return normal of a sphere
 	 */
 	@Override
-	protected Vector computeNormal(final Vector p) {
-		return Vector.sub(p, position).normalize();
+	protected Vector computeNormalAt(final Vector point) {
+		return Vector.sub(point, position).normalize();
 	}
 }

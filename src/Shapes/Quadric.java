@@ -1,15 +1,14 @@
 package Shapes;
 
 import Materials.Material;
-import Utility.Intersection;
 import Utility.Range;
 import Utility.Ray;
 import Utility.Vector;
 
 /**
- * A Quadric is a shape whose surface can be described by a 3D quadratic
- * equation. Just like with a 2D quadratic, a single ray cannot intersect a
- * Quadric more than twice.
+ * A Quadric is a generalized second degree polynomial surface. Just like with a
+ * second degree polynomial function and a straight line, a single ray cannot
+ * intersect a Quadric more than twice.
  * 
  * @author mld2443
  * @see <a href="https://en.wikipedia.org/wiki/Quadric">Wikipedia</a>
@@ -62,16 +61,13 @@ public class Quadric extends Shape {
 	}
 
 	/**
-	 * Computes the normal of a point on the Quadric by taking the derivative of
-	 * the equation at point p.
-	 * 
-	 * @param p
-	 *            Point of the surface to find a normal for
-	 * @return A unit vector normal to the surface
+	 * The Quadric normal function computes the generic derivative of the
+	 * quadratic equation for the point.
 	 */
-	protected Vector computeNormal(final Vector p) {
+	@Override
+	protected Vector computeNormalAt(final Vector point) {
 		// Relative direction of the point to the Quadric
-		final Vector relative = Vector.sub(p, position);
+		final Vector relative = Vector.sub(point, position);
 
 		// This is the literal derivative of the Quadric at point p
 		final float dx = (2 * equation.A * relative.x + equation.E * relative.z + equation.F * relative.y + equation.G);
@@ -80,42 +76,46 @@ public class Quadric extends Shape {
 
 		return new Vector(dx, dy, dz);
 	}
-	
-	private Float computeIntersection(final Ray r, final Range<Float> frustum) {
-		// Calculate the positions of the camera and the ray relative to the quadric
-		Vector rCam = Vector.sub(r.origin, position);
-		Vector rRay = r.direction;
-		
-		// Pre-calculate these values for our quadratic equation
-		// Doing it this way would make more sense if our vector operations were SIMD
+
+	@Override
+	protected Float computeNearestIntersection(final Ray ray, final Range<Float> frustum) {
+		// Calculate the positions of the camera and the ray relative to the
+		// quadric
+		Vector rCam = Vector.sub(ray.origin, position);
+		Vector rRay = ray.direction;
+
+		// Pre-calculate these values for our quadratic equation; doing it this
+		// way would make more sense if our vector operations were SIMD
 		Vector V1 = Vector.inlineMultiply(rRay, rRay);
 		Vector V2 = Vector.scale(new Vector(rRay.x * rRay.y, rRay.y * rRay.z, rRay.z * rRay.x), 2);
 		Vector V3 = Vector.inlineMultiply(rCam, rRay);
-		Vector V4 = new Vector(rRay.x * rCam.y + rCam.x * rRay.y, rCam.y * rRay.z + rRay.y * rCam.z, rCam.x * rRay.z + rRay.x * rCam.z);
+		Vector V4 = new Vector(rRay.x * rCam.y + rCam.x * rRay.y, rCam.y * rRay.z + rRay.y * rCam.z,
+				rCam.x * rRay.z + rRay.x * rCam.z);
 		Vector V5 = rRay;
 		Vector V6 = Vector.inlineMultiply(rCam, rCam);
 		Vector V7 = Vector.scale(new Vector(rCam.x * rCam.y, rCam.y * rCam.z, rCam.z * rCam.x), 2);
 		Vector V8 = Vector.scale(rCam, 2);
-		
+
 		// Calculate the quadratic coefficients
 		float A = Vector.dot(equation.ABC, V1) + Vector.dot(equation.DEF, V2);
 		float B = Vector.dot(equation.ABC, V3) + Vector.dot(equation.DEF, V4) + Vector.dot(equation.GHI, V5);
-		float C = Vector.dot(equation.ABC, V6) + Vector.dot(equation.DEF, V7) + Vector.dot(equation.GHI, V8) + equation.J;
-		
+		float C = Vector.dot(equation.ABC, V6) + Vector.dot(equation.DEF, V7) + Vector.dot(equation.GHI, V8)
+				+ equation.J;
+
 		// Calculate the squared value for our quadratic formula
 		float square = B * B - A * C;
-		
+
 		// No collision if the root is imaginary
 		if (square < 0)
 			return null;
-		
+
 		// Take its square root if it's real
 		float root = (float) Math.sqrt(square);
-		
+
 		// Calculate both intersections
 		float D1 = (-B - root) / A;
 		float D2 = (-B + root) / A;
-		
+
 		// Return closest intersection thats in the frustum
 		if (frustum.contains(D1))
 			return D1;
@@ -124,15 +124,4 @@ public class Quadric extends Shape {
 		return null;
 	}
 
-	@Override
-	public Intersection intersectRay(final Ray r, final Range<Float> frustum) {
-		Float distance = computeIntersection(r, frustum);
-		
-		if (distance == null)
-			return null;
-		
-		Vector point = r.project(distance);
-		
-		return new Intersection(distance, point, computeNormal(point));
-	}
 }
