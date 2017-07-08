@@ -1,9 +1,9 @@
 package Utility;
 
 public class Color {
-	float r,g,b;
+	public float r,g,b;
 	
-	Color(final float r, final float g, final float b) {
+	public Color(final float r, final float g, final float b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
