@@ -1,8 +1,5 @@
 package Utility;
 
-import java.awt.image.BufferedImage;
-import java.io.PrintStream;
-
 /**
  * A delegation interface for timing miscellaneous events as well as events
  * associated with a grid based activity.
@@ -59,20 +56,4 @@ public interface GridTimerDelegate {
 	 *            Y position of the task
 	 */
 	public void gridEventStop(final int x, final int y);
-
-	/**
-	 * Outputs the log of all events and their relevant information to a stream.
-	 * 
-	 * @param stream
-	 *            Location for output; can be a logger or a file, etc.
-	 */
-	public void getEvents(PrintStream stream);
-
-	/**
-	 * Compiles the grid-based information into an output image.
-	 * 
-	 * @return A {@link BufferedImage} heatmap of the time each task in the grid
-	 *         takes to complete ready to be output into a file
-	 */
-	public BufferedImage gridHeatmap();
 }
