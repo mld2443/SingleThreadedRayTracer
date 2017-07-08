@@ -6,4 +6,4 @@
  * 
  * @author mld2443
  */
-package Shapes;
+package shapes;

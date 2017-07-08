@@ -1,10 +1,10 @@
-package Shapes;
+package shapes;
 
-import Materials.Material;
-import Utility.Intersection;
-import Utility.Range;
-import Utility.Ray;
-import Utility.Vector;
+import materials.Material;
+import utilities.Intersection;
+import utilities.Range;
+import utilities.Ray;
+import utilities.Vector;
 
 /**
  * A shape is an object that resides in 3D space, and can interact with our rays.

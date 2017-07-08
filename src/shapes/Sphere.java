@@ -1,13 +1,13 @@
-package Shapes;
+package shapes;
 
-import Materials.Material;
-import Utility.Vector;
+import materials.Material;
+import utilities.Vector;
 
 /**
  * A sphere is just a Quadric with a special simple normal function.
  * 
  * @author mld2443
- * @see Shapes.Quadric
+ * @see shapes.Quadric
  */
 public class Sphere extends Quadric {
 

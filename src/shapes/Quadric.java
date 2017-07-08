@@ -1,9 +1,9 @@
-package Shapes;
+package shapes;
 
-import Materials.Material;
-import Utility.Range;
-import Utility.Ray;
-import Utility.Vector;
+import materials.Material;
+import utilities.Range;
+import utilities.Ray;
+import utilities.Vector;
 
 /**
  * A Quadric is a generalized second degree polynomial surface. Just like with a

@@ -1,4 +1,4 @@
-package Utility;
+package utilities;
 
 /**
  * A delegation interface for timing miscellaneous events as well as events

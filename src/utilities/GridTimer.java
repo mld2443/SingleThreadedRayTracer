@@ -1,7 +1,7 @@
 /**
  * 
  */
-package Utility;
+package utilities;
 
 import java.awt.image.BufferedImage;
 import java.io.PrintStream;

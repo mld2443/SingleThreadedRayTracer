@@ -1,9 +1,9 @@
 import java.awt.image.BufferedImage;
 
-import Utility.Color;
-import Utility.GridTimerDelegate;
-import Utility.Range;
-import Utility.Vector;
+import utilities.Color;
+import utilities.GridTimerDelegate;
+import utilities.Range;
+import utilities.Vector;
 
 /**
  * A camera obscura, which can set up inside a virtual scene and capture an

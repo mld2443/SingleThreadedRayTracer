@@ -1,13 +1,13 @@
 import java.io.File;
 import java.util.ArrayList;
 
-import Materials.Lambertian;
-import Materials.Material;
-import Shapes.Plane;
-import Shapes.Shape;
-import Shapes.Sphere;
-import Utility.Color;
-import Utility.Vector;
+import materials.Lambertian;
+import materials.Material;
+import shapes.Plane;
+import shapes.Shape;
+import shapes.Sphere;
+import utilities.Color;
+import utilities.Vector;
 
 public class Scene {
 	ArrayList<Shape> things;

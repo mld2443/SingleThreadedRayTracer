@@ -1,10 +1,9 @@
-package Shapes;
+package shapes;
 
-import Materials.Material;
-import Utility.Intersection;
-import Utility.Range;
-import Utility.Ray;
-import Utility.Vector;
+import materials.Material;
+import utilities.Range;
+import utilities.Ray;
+import utilities.Vector;
 
 /**
  * A plane is the only kind of first degree polynomial surface. A single ray can

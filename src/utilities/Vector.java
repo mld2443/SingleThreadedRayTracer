@@ -1,4 +1,4 @@
-package Utility;
+package utilities;
 
 import java.util.Random;
 
@@ -143,6 +143,16 @@ public final class Vector {
 	 */
 	public static Vector cross(final Vector lhs, final Vector rhs) {
 		return new Vector(lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Vector v = (Vector) obj;
+		
+		final float error = v.x + v.y + v.z - x - y - z;
+		
+		// build in some small tolerance
+		return error < 0.00001;
 	}
 	
 	@Override

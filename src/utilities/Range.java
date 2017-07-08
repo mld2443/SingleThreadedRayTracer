@@ -1,4 +1,4 @@
-package Utility;
+package utilities;
 
 /**
  * A Range holds a lower and upper bound, and a function to test whether a value

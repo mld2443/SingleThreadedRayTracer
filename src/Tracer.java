@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import Utility.GridTimer;
-import Utility.Vector;
+import utilities.GridTimer;
+import utilities.Vector;
 
 public class Tracer {
 

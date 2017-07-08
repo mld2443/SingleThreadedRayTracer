@@ -1,4 +1,4 @@
-package Utility;
+package utilities;
 
 public class Color {
 	public float r,g,b;

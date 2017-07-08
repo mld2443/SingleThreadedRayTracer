@@ -1,4 +1,4 @@
-package Utility;
+package utilities;
 
 public class Intersection {
 	final float distance;

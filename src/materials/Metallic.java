@@ -1,8 +1,8 @@
-package Materials;
+package materials;
 
-import Utility.Color;
-import Utility.Intersection;
-import Utility.Ray;
+import utilities.Color;
+import utilities.Intersection;
+import utilities.Ray;
 
 public class Metallic extends Material {
 	private final float fuzz;
