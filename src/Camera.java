@@ -68,7 +68,7 @@ public class Camera {
 	 * @see <a href="https://en.wikipedia.org/wiki/Delegation_pattern">
 	 *      Wikipedia: Delegation Pattern</a>
 	 */
-	public GridTimerDelegate timer;
+	private GridTimerDelegate timer;
 
 	/**
 	 * Sets up a new camera object and places it in a virtual scene.
@@ -135,6 +135,29 @@ public class Camera {
 				Vector.scale(jStar, screenHeight));
 
 		this.film = new int[width][height];
+		
+		if (timer != null)
+			this.timer.setGridSize(width, height);
+	}
+	
+	/**
+	 * Sets the timer delegate and updates its necessary parameters.
+	 * 
+	 * @param timer The new timer delegate
+	 * @see GridTimerDelegate
+	 */
+	public void setTimer(GridTimerDelegate timer) {
+		this.timer = timer;
+		this.timer.setGridSize(width, height);
+	}
+	
+	/**
+	 * Getter for the timer delegate.
+	 * 
+	 * @return The current timer if there is one
+	 */
+	public GridTimerDelegate getTimer() {
+		return timer;
 	}
 
 	/**
@@ -181,6 +204,7 @@ public class Camera {
 
 			for (int x = 0; x < width; x++) {
 				// This is the top-left of the pixel window
+				@SuppressWarnings("unused")
 				Vector pixelPosition = Vector.add(deltaY, Vector.scale(iHat, x));
 
 				this.film[x][y] = new Color(0.0f, 0.5f, 0.0f).quantize();
