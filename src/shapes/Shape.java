@@ -65,6 +65,6 @@ public abstract class Shape {
 
 		Vector point = ray.project(distance);
 
-		return new Intersection(distance, point, computeNormalAt(point));
+		return new Intersection(distance, point, computeNormalAt(point), material);
 	}
 }

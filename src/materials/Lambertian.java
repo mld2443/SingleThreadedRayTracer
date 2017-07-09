@@ -1,8 +1,8 @@
 package materials;
 
 import utilities.Color;
-import utilities.Intersection;
 import utilities.Ray;
+import utilities.Vector;
 
 public class Lambertian extends Material {
 
@@ -11,7 +11,7 @@ public class Lambertian extends Material {
 	}
 
 	@Override
-	public Ray scatter(final Ray incoming, final Intersection intersection, final float sceneIndex) {
+	public Ray scatter(final Ray incoming, final Vector collision, final Vector normal, final float sceneIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
