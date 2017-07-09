@@ -87,14 +87,14 @@ public class Quadric extends Shape {
 		// Pre-calculate these values for our quadratic equation; doing it this
 		// way would make more sense if our vector operations were SIMD
 		Vector V1 = Vector.inlineMultiply(rRay, rRay);
-		Vector V2 = Vector.scale(new Vector(rRay.x * rRay.y, rRay.y * rRay.z, rRay.z * rRay.x), 2);
+		Vector V2 = new Vector(rRay.x * rRay.y, rRay.y * rRay.z, rRay.z * rRay.x).scale(2);
 		Vector V3 = Vector.inlineMultiply(rCam, rRay);
 		Vector V4 = new Vector(rRay.x * rCam.y + rCam.x * rRay.y, rCam.y * rRay.z + rRay.y * rCam.z,
 				rCam.x * rRay.z + rRay.x * rCam.z);
 		Vector V5 = rRay;
 		Vector V6 = Vector.inlineMultiply(rCam, rCam);
-		Vector V7 = Vector.scale(new Vector(rCam.x * rCam.y, rCam.y * rCam.z, rCam.z * rCam.x), 2);
-		Vector V8 = Vector.scale(rCam, 2);
+		Vector V7 = new Vector(rCam.x * rCam.y, rCam.y * rCam.z, rCam.z * rCam.x).scale(2);
+		Vector V8 = rCam.scale(2);
 
 		// Calculate the quadratic coefficients
 		float A = Vector.dot(equation.ABC, V1) + Vector.dot(equation.DEF, V2);

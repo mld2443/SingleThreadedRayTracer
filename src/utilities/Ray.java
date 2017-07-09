@@ -25,6 +25,6 @@ public class Ray {
 	 * @return
 	 */
 	public Vector project(final float distance) {
-		return Vector.add(origin, Vector.scale(direction, distance));
+		return Vector.add(origin, direction.scale(distance));
 	}
 }

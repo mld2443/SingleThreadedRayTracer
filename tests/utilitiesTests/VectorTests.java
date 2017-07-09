@@ -22,8 +22,8 @@ public class VectorTests {
 		assertEquals("Negation", b.invert(), new Vector(0,1,1));
 		assertEquals("Addition", Vector.add(a, b), new Vector(1,1,2));
 		assertEquals("Subtraction", Vector.sub(a, b), new Vector(1,3,4));
-		assertEquals("Scaling", Vector.scale(a, 2.0f), new Vector(2,4,6));
-		assertEquals("Scaling", Vector.div(a, 2.0f), new Vector(0.5f,1.0f,1.5f));
+		assertEquals("Scaling", a.scale(2.0f), new Vector(2,4,6));
+		assertEquals("Scaling", a.divide(2.0f), new Vector(0.5f,1.0f,1.5f));
 		assertEquals("Inline Product", Vector.inlineMultiply(a, b), new Vector(0,-2,-3));
 		assertEquals("Dot Product", Vector.dot(a, b), -5.0f, 8);
 		assertEquals("Cross Product", Vector.cross(a, b), new Vector(1,-1,-1));

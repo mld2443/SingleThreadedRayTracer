@@ -46,7 +46,7 @@ public final class Vector {
 	 * @return a unit vector with the same direction
 	 */
 	public Vector normalize() {
-		return div(this, magnitude());
+		return divide(magnitude());
 	}
 
 	/**
@@ -112,8 +112,8 @@ public final class Vector {
 	 *            float
 	 * @return scaled vector
 	 */
-	public static Vector div(final Vector v, final float factor) {
-		return new Vector(v.x / factor, v.y / factor, v.z / factor);
+	public Vector divide(final float factor) {
+		return new Vector(x / factor, y / factor, z / factor);
 	}
 
 	/**
@@ -124,8 +124,8 @@ public final class Vector {
 	 * @param factor
 	 * @return scaled vector
 	 */
-	public static Vector scale(final Vector v, final float factor) {
-		return new Vector(v.x * factor, v.y * factor, v.z * factor);
+	public Vector scale(final float factor) {
+		return new Vector(x * factor, y * factor, z * factor);
 	}
 
 	/**
@@ -166,7 +166,7 @@ public final class Vector {
 	 * @return A vector reflection
 	 */
 	public static Vector reflect(final Vector incoming, final Vector normal) {
-		return sub(incoming, scale(normal, 2.0f * dot(incoming, normal)));
+		return sub(incoming, normal.scale(2.0f * dot(incoming, normal)));
 	}
 
 	/**
@@ -186,11 +186,13 @@ public final class Vector {
 	public static Vector refract(final Vector incoming, final Vector normal, final float eta) {
 		final float incedent = dot(incoming, normal);
 		final float discriminant = 1.0f - ((eta * eta) * (1.0f - (incedent * incedent)));
+		
 		if (discriminant <= 0) {
 			// Total internal reflection
 			return null;
 		}
-		return sub(scale(sub(incoming, scale(normal, incedent)), eta), scale(normal, (float) Math.sqrt(discriminant)));
+		
+		return sub(sub(incoming, normal.scale(incedent)).scale(eta), normal.scale((float) Math.sqrt(discriminant)));
 	}
 
 	@Override

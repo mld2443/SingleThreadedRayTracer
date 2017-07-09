@@ -127,12 +127,12 @@ public class Camera {
 		final Vector jStar = Vector.cross(unitDirection, iStar).normalize();
 
 		// Compute the dimensions of a pixel represented in screenspace
-		this.iHat = Vector.scale(iStar, (2 * screenWidth / width));
-		this.jHat = Vector.scale(jStar, (2 * screenHeight / height));
+		this.iHat = iStar.scale(2 * screenWidth / width);
+		this.jHat = jStar.scale(2 * screenHeight / height);
 
 		// The top left of the screenspace is the origin of our image
-		this.origin = Vector.add(Vector.add(unitDirection, Vector.scale(iStar, screenWidth)),
-				Vector.scale(jStar, screenHeight));
+		this.origin = Vector.add(Vector.add(unitDirection, iStar.scale(screenWidth)),
+				jStar.scale(screenHeight));
 
 		this.film = new int[width][height];
 		
@@ -200,12 +200,12 @@ public class Camera {
 
 		for (int y = 0; y < height; y++) {
 			// Keep track of the scanline position
-			Vector deltaY = Vector.add(origin, Vector.scale(jHat, y));
+			Vector deltaY = Vector.add(origin, jHat.scale(y));
 
 			for (int x = 0; x < width; x++) {
 				// This is the top-left of the pixel window
 				@SuppressWarnings("unused")
-				Vector pixelPosition = Vector.add(deltaY, Vector.scale(iHat, x));
+				Vector pixelPosition = Vector.add(deltaY, iHat.scale(x));
 
 				this.film[x][y] = new Color(0.0f, 0.5f, 0.0f).quantize();
 			}
