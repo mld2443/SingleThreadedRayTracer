@@ -13,11 +13,13 @@ import java.util.Hashtable;
  * @author mld2443
  */
 public class GridTimer implements GridTimerDelegate {
-	/**
-	 * A delegate for logging the events as they finish
-	 */
-	public PrintStream logger;
-
+	@SuppressWarnings("serial")
+	public class TimerEventException extends RuntimeException {
+		public TimerEventException(String message) {
+			super(message);
+		}
+	}
+	
 	/**
 	 * A simple object for keeping track of when an event starts, when it stops,
 	 * how long that took, and if it has completed.
@@ -43,16 +45,16 @@ public class GridTimer implements GridTimerDelegate {
 		 * complete
 		 */
 		public void finish() {
-			if (completed) {
-				// TODO: Raise an error; can't finish an event more than once
-				return;
-			}
-
 			stopTime = System.nanoTime();
 			elapsedTime = stopTime - startTime;
 			completed = true;
 		}
 	}
+
+	/**
+	 * A delegate for logging the events as they finish
+	 */
+	public PrintStream logger;
 
 	private Hashtable<String, Event> events;
 	private int width, height;
@@ -79,23 +81,24 @@ public class GridTimer implements GridTimerDelegate {
 	}
 
 	@Override
-	public void eventStart(final String eventName) {
-		if (events.containsKey(eventName)) {
-			// TODO: raise an error; duplicate event
-			return;
-		}
-
+	public void eventStart(final String eventName) throws TimerEventException {
+		// Catch some simple exceptions
+		if (events.containsKey(eventName))
+			throw new TimerEventException("Event with the name \"" + eventName + "\" already exists.");
+		
 		events.put(eventName, new Event());
 	}
 
 	@Override
-	public void eventStop(final String eventName) {
+	public void eventStop(final String eventName) throws TimerEventException {
 		Event e = events.get(eventName);
-
+		
+		// Catch some simple exceptions
 		if (e == null)
-			// TODO: raise an error; event not found / never started
-			return;
-
+			throw new TimerEventException("Event \"" + eventName + "\" is not found.");
+		if (e.completed)
+			throw new TimerEventException("Event \"" + eventName + "\" is already stopped.");
+		
 		e.finish();
 
 		// If the logger delegate is set, output to the logger
@@ -114,12 +117,22 @@ public class GridTimer implements GridTimerDelegate {
 	}
 
 	@Override
-	public void gridEventStart(final int x, final int y) {
+	public void gridEventStart(final int x, final int y) throws TimerEventException {
+		// Catch some simple exceptions
+		if (grid[x][y] != null)
+			throw new TimerEventException("Event at Grid[" + x + "][" + y + "] already exists.");
+		
 		grid[x][y] = new Event();
 	}
 
 	@Override
-	public void gridEventStop(final int x, final int y) {
+	public void gridEventStop(final int x, final int y) throws TimerEventException {
+		// Catch some simple exceptions
+		if (grid[x][y] == null)
+			throw new TimerEventException("Event at Grid[" + x + "][" + y + "] was not started.");
+		if (grid[x][y].completed)
+			throw new TimerEventException("Event at Grid[" + x + "][" + y + "] is already stopped.");
+		
 		grid[x][y].finish();
 	}
 
@@ -154,7 +167,7 @@ public class GridTimer implements GridTimerDelegate {
 	 * @return A {@link BufferedImage} heatmap of the time each task in the grid
 	 *         takes to complete ready to be output into a file
 	 */
-	public BufferedImage gridHeatmap() {
+	public BufferedImage gridHeatmap() throws TimerEventException {
 		// This action is not instantaneous, might as well time it
 		eventStart("Generate Heatmap");
 
@@ -164,6 +177,9 @@ public class GridTimer implements GridTimerDelegate {
 		// Find the largest and smallest values in the grid
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
+				if (grid[x][y] == null)
+					throw new TimerEventException("Grid[" + x + "][" + y + "] uninitialized.");
+				
 				final long element = grid[x][y].elapsedTime;
 
 				if (element > high)
