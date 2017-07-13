@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import materials.Lambertian;
 import materials.Material;
+import materials.Metallic;
 import shapes.Plane;
 import shapes.Shape;
 import shapes.Sphere;
@@ -49,9 +50,11 @@ public class Scene {
 		// TODO: generate a random scene here
 		Material matteWhite = new Lambertian(Color.white());
 		Material matteGreen = new Lambertian(Color.green());
+		Material shinyYellow = new Metallic(Color.yellow(), 0.0f);
 
 		things.add(new Plane(matteWhite, new Vector(), new Vector(0, 0, 1)));
-		things.add(new Sphere(matteGreen, new Vector(5, 0, 3), 3));
+		things.add(new Sphere(matteGreen, new Vector(15, -5, 3), 3));
+		things.add(new Sphere(shinyYellow, new Vector(15, 4, 4), 4));
 	}
 
 	/**
