@@ -72,14 +72,42 @@ public class Scene {
 	 * a gradient that is white below the horizon and fades to {@link Scene#sky
 	 * sky color} the more upward you look.
 	 * 
+	 * This is essentially where *all* the light in the final capture comes
+	 * from. Try changing this method and seeing what happens!
+	 * 
 	 * @param direction
 	 *            The direction in which to sample our gradient
 	 * @return A color from the gradient
 	 */
 	private Color skyBox(final Vector direction) {
 		// TODO: Check how this looks with curve correction
-		final float interpolate = (0.5f * (direction.y + 1.0f)); // ^0.5f;
+		final float interpolate = (0.5f * (direction.z + 1.0f)); // ^0.5f;
 		return Color.linearBlend(sky, Color.white(), interpolate);
+	}
+
+	/**
+	 * Casts a single ray, and returns a shaded {@link Color} of the closes
+	 * object in its path. The shading is a simple linear interpolation of the
+	 * vertical component of the normal of the surface at the point of
+	 * collision.
+	 * 
+	 * @param ray
+	 * @param window
+	 * @return
+	 */
+	public Color preview(final Ray ray, final Range<Float> window) {
+		// Check to see if our ray hits an object, or just shoots into the sky
+		final Intersection nearest = findNearest(ray, window);
+
+		// If we do not hit anything, return our sky color.
+		if (nearest == null)
+			return skyBox(ray.direction);
+
+		// Get the color of that object and apply shading to it
+		final float interpolate = (0.5f * (nearest.normal.z + 1.0f));
+		final Color sample = Color.linearBlend(Color.black(), nearest.material.color, interpolate);
+
+		return sample;
 	}
 
 	/**
@@ -87,9 +115,9 @@ public class Scene {
 	 * query for the nearest collision, and blend colors recursively.
 	 * 
 	 * @param ray
-	 *            The initial ray to consider in the algorithm.
+	 *            The initial {@link Ray} to consider in the algorithm.
 	 * @param window
-	 *            The range in which we consider ray-object collisions
+	 *            The {@link Range} in which we consider ray-object collisions
 	 * @param depth
 	 *            The number of recursive steps our ray will take before being
 	 *            absorbed or reaching the sky
