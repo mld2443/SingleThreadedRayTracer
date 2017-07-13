@@ -98,7 +98,7 @@ public class Camera {
 	 *            The range of our camera, beyond which is sky.
 	 */
 	Camera(final Vector position, final Vector direction, final int width, final int height, final int sampling,
-			final int depth, final int FOV) {
+			final int depth, final float FOV) {
 		this.position = position;
 		this.width = width;
 		this.height = height;
@@ -121,7 +121,7 @@ public class Camera {
 	 * @param up
 	 *            The upward direction, usually <0,0,1>
 	 */
-	public void aimCamera(final int FOV, final Vector direction, final Vector up) {
+	public void aimCamera(final float FOV, final Vector direction, final Vector up) {
 		final Vector unitDirection = direction.normalize();
 
 		// Calculate the screen dimensions given the FOV
@@ -298,8 +298,11 @@ public class Camera {
 		// Color correction
 		pixel = pixel.reduce(sampling);
 		
-		// This brightens the image.
+		// This brightens the image
 		//pixel = pixel.applyTransform(v -> (float) Math.sqrt(v));
+		
+		// This darkens the image
+		//pixel = pixel.applyTransform(v -> v*v);
 
 		return pixel;
 	}

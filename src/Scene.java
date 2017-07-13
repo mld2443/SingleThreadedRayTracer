@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 
+import materials.Dielectric;
 import materials.Lambertian;
 import materials.Material;
 import materials.Metallic;
@@ -51,10 +52,12 @@ public class Scene {
 		Material matteWhite = new Lambertian(Color.white());
 		Material matteGreen = new Lambertian(Color.green());
 		Material shinyYellow = new Metallic(Color.yellow(), 0.0f);
+		Material glassy = new Dielectric(new Color(0.8f,1,1), 1.655f);
 
 		things.add(new Plane(matteWhite, new Vector(), new Vector(0, 0, 1)));
-		things.add(new Sphere(matteGreen, new Vector(15, -5, 3), 3));
-		things.add(new Sphere(shinyYellow, new Vector(15, 4, 4), 4));
+		things.add(new Sphere(matteGreen, new Vector(30, -30, 15), 15));
+		things.add(new Sphere(shinyYellow, new Vector(37, 4, 4), 4));
+		things.add(new Sphere(glassy, new Vector(28, 0, 5), 5));
 	}
 
 	/**
@@ -83,8 +86,7 @@ public class Scene {
 	 * @return A color from the gradient
 	 */
 	private Color skyBox(final Vector direction) {
-		// TODO: Check how this looks with curve correction
-		final float interpolate = (0.5f * (direction.z + 1.0f)); // ^0.5f;
+		final float interpolate = (0.5f * (direction.z + 1.0f));
 		return Color.linearBlend(sky, Color.white(), interpolate);
 	}
 
