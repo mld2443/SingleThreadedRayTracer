@@ -25,6 +25,11 @@ public class Ray {
 	 * @return
 	 */
 	public Vector project(final float distance) {
-		return Vector.add(origin, direction.scale(distance));
+		return Vector.sum(origin, direction.scale(distance));
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("o:%s d:%s", origin, direction);
 	}
 }

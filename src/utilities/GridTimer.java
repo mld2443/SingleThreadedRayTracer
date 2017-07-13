@@ -1,6 +1,3 @@
-/**
- * 
- */
 package utilities;
 
 import java.awt.image.BufferedImage;
@@ -105,7 +102,7 @@ public class GridTimer implements GridTimerDelegate {
 		if (logger != null) {
 			final double seconds = ((double) e.elapsedTime) / 1_000_000_000.0;
 
-			logger.println(eventName + ":\t" + seconds + " s");
+			logger.println(String.format("%s:\t%.3g s", eventName, seconds));
 		}
 	}
 

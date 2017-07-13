@@ -71,14 +71,21 @@ public final class Vector {
 	}
 
 	/**
-	 * Vector addition
+	 * Vector summation. Takes any number of vectors.
 	 * 
-	 * @param lhs
-	 * @param rhs
-	 * @return vector sum
+	 * @param operands Variable number of operands
+	 * @return Vector summation
 	 */
-	public static Vector add(final Vector lhs, final Vector rhs) {
-		return new Vector(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
+	public static Vector sum(final Vector... operands) {
+		float x = 0.0f, y = 0.0f, z = 0.0f;
+		
+		for (Vector v : operands) {
+			x += v.x;
+			y += v.y;
+			z += v.z;
+		}
+		
+		return new Vector(x, y, z);
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package utilities;
 
+import java.util.function.Function;
+
 /**
  * A color class capable of holding values with floating point precision, and
  * brighter than white values. Intended for use with blending and Color
@@ -27,6 +29,17 @@ public class Color {
 	}
 
 	/**
+	 * Applies a transform to each individual color channel
+	 * 
+	 * @param transform
+	 *            Function to apply
+	 * @return A new transformed Color
+	 */
+	public Color applyTransform(Function<Float, Float> transform) {
+		return new Color(transform.apply(r), transform.apply(g), transform.apply(b));
+	}
+
+	/**
 	 * Export of a color to an integer. This reduces each channel to an 8-bit
 	 * value, clipping the values and then quantizing them. After which no more
 	 * operations may be performed on the color.
@@ -46,15 +59,27 @@ public class Color {
 	////////////////
 
 	/**
-	 * Scales a color. This is effectively increasing or decreasing its
-	 * luminance.
+	 * Scales a color by multiplication. This is effectively increasing or decreasing
+	 * its luminance.
 	 * 
-	 * @param scale
+	 * @param factor
 	 *            Factor by which we multiply every channel
 	 * @return Scaled color
 	 */
-	public Color scale(final float scale) {
-		return new Color(r * scale, g * scale, b * scale);
+	public Color scale(final float factor) {
+		return new Color(r * factor, g * factor, b * factor);
+	}
+
+	/**
+	 * Reduces a color by division. This is effectively increasing or decreasing
+	 * its luminance.
+	 * 
+	 * @param factor
+	 *            Factor by which we divide every channel
+	 * @return Reduced color
+	 */
+	public Color reduce(final float factor) {
+		return new Color(r / factor, g / factor, b / factor);
 	}
 
 	/**
@@ -80,7 +105,7 @@ public class Color {
 	 * @return Product of the two colors
 	 */
 	public static Color mix(final Color c1, final Color c2) {
-		return new Color(c1.r + c2.r, c1.g + c2.g, c1.b + c2.b);
+		return new Color(c1.r * c2.r, c1.g * c2.g, c1.b * c2.b);
 	}
 
 	/**
@@ -190,5 +215,10 @@ public class Color {
 	 */
 	public static Color black() {
 		return new Color(0, 0, 0);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("#%06X", quantize());
 	}
 }
