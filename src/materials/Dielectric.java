@@ -1,7 +1,9 @@
 package materials;
 
+import java.util.Map;
 import java.util.Random;
 
+import tracer.Engine.SceneFormattingException;
 import utilities.Color;
 import utilities.Ray;
 import utilities.Vector;
@@ -24,13 +26,29 @@ public class Dielectric extends Material {
 	 * index of a vacuum (and approximately air) is 1.0; water is about 1.33;
 	 * glass is closer to 1.52 to 1.62; diamond is about 2.42.
 	 * 
-	 * @param color Color of the material; Black will make it completely opaque
-	 * @param refractionIndex The index of refraction for this material
-	 * @see <a href="https://en.wikipedia.org/wiki/Refractive_index">Wikipedia: Refractive Index</a>
+	 * @param color
+	 *            Color of the material; Black will make it completely opaque
+	 * @param refractionIndex
+	 *            The index of refraction for this material
+	 * @see <a href="https://en.wikipedia.org/wiki/Refractive_index">Wikipedia:
+	 *      Refractive Index</a>
 	 */
 	public Dielectric(final Color color, final float refractionIndex) {
-		super(color);
+		// Since refracted materials tend to appear darker, we lighten them up
+		// so the color appears correct
+		super(color.applyTransform(channel -> (float) Math.sqrt(channel)));
 		this.refractionIndex = refractionIndex;
+	}
+
+	/**
+	 * Constructs a new Dielectric material from a list of properties.
+	 * 
+	 * @param properties
+	 *            Map of properties; Expects "color" and "index"
+	 * @throws SceneFormattingException
+	 */
+	public Dielectric(final Map<String, String> properties) throws SceneFormattingException {
+		this(new Color(properties.get("color")), Float.parseFloat(properties.get("index")));
 	}
 
 	/**

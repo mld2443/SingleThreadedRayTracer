@@ -1,5 +1,7 @@
 package shapes;
 
+import java.util.Map;
+
 import materials.Material;
 import tracer.Engine.SceneFormattingException;
 import utilities.Range;
@@ -85,7 +87,7 @@ public class Quadric extends Shape {
 	 * Constructs a Quadric with the given equation.
 	 * 
 	 * @param material
-	 *            The material the sphere will be made of
+	 *            The material the Quadric will be made of
 	 * @param position
 	 *            The offset from the origin
 	 * @param Equation
@@ -94,6 +96,19 @@ public class Quadric extends Shape {
 	public Quadric(final Material material, final Vector position, final Equation equation) {
 		super(material, position);
 		this.equation = equation;
+	}
+	
+	/**
+	 * Constructs a new Quadric from a list of properties.
+	 * 
+	 * @param material
+	 *            The material the Quadric will be made of
+	 * @param properties
+	 *            Map of properties; Expects "position" and "equation"
+	 * @throws SceneFormattingException
+	 */
+	public Quadric(Material material, Map<String, String> properties) throws SceneFormattingException {
+		this(material, new Vector(properties.get("position")), new Equation(properties.get("equation")));
 	}
 
 	/**
