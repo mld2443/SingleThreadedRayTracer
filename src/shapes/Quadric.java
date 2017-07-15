@@ -1,6 +1,9 @@
 package shapes;
 
+import java.util.Map;
+
 import materials.Material;
+import tracer.Engine.SceneFormattingException;
 import utilities.Range;
 import utilities.Ray;
 import utilities.Vector;
@@ -41,6 +44,41 @@ public class Quadric extends Shape {
 			DEF = new Vector(D, E, F);
 			GHI = new Vector(G, H, I);
 		}
+
+		/**
+		 * Constructs a Vector from a string description.
+		 * 
+		 * @param desc
+		 *            Descriptor of the format "(A, B, C, D, E, F, G, H, I, J)"
+		 * @throws Engine.SceneFormattingException
+		 */
+		public Equation(final String desc) throws SceneFormattingException {
+			try {
+				if (desc.startsWith("(") && desc.endsWith("")) {
+					String[] values = desc.substring(1, desc.length() - 1).split(",");
+
+					if (values.length != 10)
+						throw new SceneFormattingException("Unknown Equation format: " + desc);
+
+					this.A = Float.parseFloat(values[0]);
+					this.B = Float.parseFloat(values[1]);
+					this.C = Float.parseFloat(values[2]);
+					this.D = Float.parseFloat(values[3]);
+					this.E = Float.parseFloat(values[4]);
+					this.F = Float.parseFloat(values[5]);
+					this.G = Float.parseFloat(values[6]);
+					this.H = Float.parseFloat(values[7]);
+					this.I = Float.parseFloat(values[8]);
+					this.J = Float.parseFloat(values[9]);
+					ABC = new Vector(A, B, C);
+					DEF = new Vector(D, E, F);
+					GHI = new Vector(G, H, I);
+				} else
+					throw new SceneFormattingException("Unknown Equation format: " + desc);
+			} catch (NumberFormatException e) {
+				throw new SceneFormattingException("Unknown Equation format: " + desc);
+			}
+		}
 	}
 
 	private final Equation equation;
@@ -49,7 +87,7 @@ public class Quadric extends Shape {
 	 * Constructs a Quadric with the given equation.
 	 * 
 	 * @param material
-	 *            The material the sphere will be made of
+	 *            The material the Quadric will be made of
 	 * @param position
 	 *            The offset from the origin
 	 * @param Equation
@@ -58,6 +96,19 @@ public class Quadric extends Shape {
 	public Quadric(final Material material, final Vector position, final Equation equation) {
 		super(material, position);
 		this.equation = equation;
+	}
+	
+	/**
+	 * Constructs a new Quadric from a list of properties.
+	 * 
+	 * @param material
+	 *            The material the Quadric will be made of
+	 * @param properties
+	 *            Map of properties; Expects "position" and "equation"
+	 * @throws SceneFormattingException
+	 */
+	public Quadric(Material material, Map<String, String> properties) throws SceneFormattingException {
+		this(material, new Vector(properties.get("position")), new Equation(properties.get("equation")));
 	}
 
 	/**

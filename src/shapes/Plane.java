@@ -1,6 +1,9 @@
 package shapes;
 
+import java.util.Map;
+
 import materials.Material;
+import tracer.Engine.SceneFormattingException;
 import utilities.Range;
 import utilities.Ray;
 import utilities.Vector;
@@ -33,6 +36,20 @@ public class Plane extends Shape {
 		// This is a constant in the planar equation, so might as well compute
 		// it ahead of time.
 		this.normalDotPosition = Vector.dot(this.normal, this.position);
+	}
+
+	/**
+	 * Constructs a new Plane from a list of properties.
+	 * 
+	 * @param material
+	 *            The material the plane will be made of (Dielectric not
+	 *            recommended)
+	 * @param properties
+	 *            Map of properties; Expects "position" and "normal"
+	 * @throws SceneFormattingException
+	 */
+	public Plane(Material material, Map<String, String> properties) throws SceneFormattingException {
+		this(material, new Vector(properties.get("position")), new Vector(properties.get("normal")));
 	}
 
 	@Override

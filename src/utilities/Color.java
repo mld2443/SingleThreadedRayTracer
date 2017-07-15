@@ -2,6 +2,8 @@ package utilities;
 
 import java.util.function.Function;
 
+import tracer.Engine.SceneFormattingException;;
+
 /**
  * A color class capable of holding values with floating point precision, and
  * brighter than white values. Intended for use with blending and Color
@@ -26,6 +28,26 @@ public class Color {
 		this.r = r;
 		this.g = g;
 		this.b = b;
+	}
+
+	/**
+	 * Constructs a Color from a string description.
+	 * 
+	 * @param desc
+	 *            Descriptor of the format "#FFFFFF"
+	 * @throws Engine.SceneFormattingException
+	 */
+	public Color(final String desc) throws SceneFormattingException {
+		try {
+			if (desc.startsWith("#") && desc.length() == 7) {
+				r = ((float) Long.parseLong(desc.substring(1, 3), 16)) / 255.0f;
+				g = ((float) Long.parseLong(desc.substring(3, 5), 16)) / 255.0f;
+				b = ((float) Long.parseLong(desc.substring(5, 7), 16)) / 255.0f;
+			} else
+				throw new SceneFormattingException("Unknown Color format: " + desc);
+		} catch (NumberFormatException e) {
+			throw new SceneFormattingException("Unknown Color format: " + desc);
+		}
 	}
 
 	/**
@@ -59,8 +81,8 @@ public class Color {
 	////////////////
 
 	/**
-	 * Scales a color by multiplication. This is effectively increasing or decreasing
-	 * its luminance.
+	 * Scales a color by multiplication. This is effectively increasing or
+	 * decreasing its luminance.
 	 * 
 	 * @param factor
 	 *            Factor by which we multiply every channel

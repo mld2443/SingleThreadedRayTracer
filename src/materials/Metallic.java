@@ -1,5 +1,8 @@
 package materials;
 
+import java.util.Map;
+
+import tracer.Engine.SceneFormattingException;
 import utilities.Color;
 import utilities.Ray;
 import utilities.Vector;
@@ -25,6 +28,17 @@ public class Metallic extends Material {
 	public Metallic(final Color color, final float fuzz) {
 		super(color);
 		this.fuzz = fuzz;
+	}
+
+	/**
+	 * Constructs a new Metallic material from a list of properties.
+	 * 
+	 * @param properties
+	 *            Map of properties; Expects "color" and "fuzz"
+	 * @throws SceneFormattingException
+	 */
+	public Metallic(final Map<String, String> properties) throws SceneFormattingException {
+		this(new Color(properties.get("color")), Float.parseFloat(properties.get("fuzz")));
 	}
 
 	@Override

@@ -1,0 +1,60 @@
+/////////////////////
+//                 //
+// example.scene   //
+// Matthew Dillard //
+// 2017/07/15      //
+//                 //
+/////////////////////
+
+// Scene details
+scene
+  index 1.0
+
+// Camera position and angle
+camera
+  position (0,0,5)
+  direction (1,0,0)
+  fov 90
+
+
+// Materials
+lambertian Matte White
+  color #FFFFFF
+  
+lambertian Matte Green
+  color #00FF00
+
+dielectric Teal Glass
+  color #90B48F
+  index 1.65
+
+metallic Gold
+  color #CFB53B
+  fuzz 0.2
+
+
+// Shapes
+plane Floor
+  material Matte White
+  position (0,0,0)
+  normal (0,0,1)
+
+sphere Big Green Sphere
+  material Gold
+  position (30,-30,15)
+  radius 15
+
+sphere Looking Glass
+  material Teal Glass
+  position (28,0,5)
+  radius 5
+
+quadric Cylinder
+  material Matte Green
+  position (38,5,4)
+  equation (1,1,0,0,0,0,0,0,0,-16)
+
+//sphere Gold orb
+//  material Gold
+//  position (37,4,4)
+//  radius 4

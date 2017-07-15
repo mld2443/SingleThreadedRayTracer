@@ -2,6 +2,8 @@ package utilities;
 
 import java.util.Random;
 
+import tracer.Engine.SceneFormattingException;
+
 /**
  * A mathematical vector representing either a point or direction in
  * 3-Dimensional space.
@@ -33,6 +35,31 @@ public final class Vector {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+	
+	/**
+	 * Constructs a Vector from a string description.
+	 * 
+	 * @param desc
+	 *            Descriptor of the format "(x, y, z)"
+	 * @throws Engine.SceneFormattingException
+	 */
+	public Vector(final String desc) throws SceneFormattingException {
+		try {
+			if (desc.startsWith("(") && desc.endsWith(")")) {
+				String[] values = desc.substring(1,desc.length()-1).split(",");
+				
+				if (values.length != 3)
+					throw new SceneFormattingException("Unknown Vector format: " + desc);
+				
+				x = Float.parseFloat(values[0]);
+				y = Float.parseFloat(values[1]);
+				z = Float.parseFloat(values[2]);
+			} else
+				throw new SceneFormattingException("Unknown Vector format: " + desc);
+		} catch(NumberFormatException e) {
+			throw new SceneFormattingException("Unknown Vector format: " + desc);
+		}
 	}
 
 	/**
