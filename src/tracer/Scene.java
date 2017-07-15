@@ -1,13 +1,8 @@
-import java.io.File;
-import java.util.ArrayList;
+package tracer;
 
-import materials.Dielectric;
-import materials.Lambertian;
-import materials.Material;
-import materials.Metallic;
-import shapes.Plane;
+import java.util.LinkedList;
+
 import shapes.Shape;
-import shapes.Sphere;
 import utilities.Color;
 import utilities.Intersection;
 import utilities.Range;
@@ -35,42 +30,28 @@ public class Scene {
 	/**
 	 * This is the container for our scene's shapes.
 	 */
-	private ArrayList<Shape> things;
+	private LinkedList<Shape> things;
 
 	/**
-	 * Random Scene generator. Using a random seed, this constructor generates a
-	 * floor and a bunch of spheres scattered about near the origin.
+	 * Scene constructor. Sets up parameters about our scene and prepares for
+	 * the loading of objects.
 	 * 
-	 * @param seed
-	 *            An integer seed
+	 * @param refractionIndex
+	 *            The index of refraction of the space outside shapes
 	 */
-	public Scene() {
-		refractionIndex = 1.0f;
-		this.things = new ArrayList<Shape>();
-
-		// TODO: generate a random scene here
-		Material matteWhite = new Lambertian(Color.white());
-		Material matteGreen = new Lambertian(Color.green());
-		Material shinyYellow = new Metallic(Color.yellow(), 0.0f);
-		Material glassy = new Dielectric(new Color(0.8f,1,1), 1.655f);
-
-		things.add(new Plane(matteWhite, new Vector(), new Vector(0, 0, 1)));
-		things.add(new Sphere(matteGreen, new Vector(30, -30, 15), 15));
-		things.add(new Sphere(shinyYellow, new Vector(37, 4, 4), 4));
-		things.add(new Sphere(glassy, new Vector(28, 0, 5), 5));
+	public Scene(final float refractionIndex) {
+		this.refractionIndex = refractionIndex;
+		this.things = new LinkedList<>();
 	}
 
 	/**
-	 * Scene constructor that loads a custom scene described in a {@link File}.
+	 * Adds a new shape to the scene.
 	 * 
-	 * @param descriptor
-	 *            A file containing a scene description
+	 * @param shape
+	 *            The new shape to add
 	 */
-	public Scene(File descriptor) {
-		refractionIndex = 1.0f;
-		this.things = new ArrayList<Shape>();
-
-		// TODO: read a file here
+	public void addShape(final Shape shape) {
+		things.add(shape);
 	}
 
 	/**

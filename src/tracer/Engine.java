@@ -1,4 +1,4 @@
-package utilities;
+package tracer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,14 +6,12 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.stream.Stream;
 
-import shapes.Shape;
-
 /**
  * Reads in a file for a scene.
  * 
  * @author mld2443
  */
-public class SceneFileHandler {
+public class Engine {
 	@SuppressWarnings("serial")
 	public class SceneFormattingException extends RuntimeException {
 		public SceneFormattingException(String message) {
@@ -21,16 +19,15 @@ public class SceneFileHandler {
 		}
 	}
 	
-	LinkedList<Shape> shapes;
+	Scene scene;
 	
 	/**
 	 * Default constructor.
 	 */
-	public SceneFileHandler() {
-		shapes = new LinkedList<>();
+	public Engine() {
 	}
 	
-	public LinkedList<Shape> readFile(String filename) throws IOException {
+	public void load(String filename) throws IOException {
 		LinkedList<String> lines = new LinkedList<>();
 		
 		Stream<String> lineStream = Files.lines(Paths.get(filename));
@@ -40,13 +37,15 @@ public class SceneFileHandler {
 		lineStream.close();
 				
 		for (String line : lines) {
-			if (line == "" || line.charAt(0) == '#')
+			// remove comments
+			line = line.split("//", 2)[0];
+			
+			// ignore lines without instructions
+			if (line.trim().equals(""))
 				continue;
 			
 			
 		}
-		
-		return shapes;
 	}
 
 }
