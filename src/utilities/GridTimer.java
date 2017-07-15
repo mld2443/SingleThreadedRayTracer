@@ -2,7 +2,7 @@ package utilities;
 
 import java.awt.image.BufferedImage;
 import java.io.PrintStream;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 /**
  * 
@@ -53,7 +53,7 @@ public class GridTimer implements GridTimerDelegate {
 	 */
 	public PrintStream logger;
 
-	private Hashtable<String, Event> events;
+	private HashMap<String, Event> events;
 	private int width, height;
 	private Event[][] grid;
 
@@ -62,7 +62,7 @@ public class GridTimer implements GridTimerDelegate {
 	 * call {@link GridTimer#setGridSize(int, int)}.
 	 */
 	public GridTimer() {
-		this.events = new Hashtable<String, Event>();
+		this.events = new HashMap<>();
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class GridTimer implements GridTimerDelegate {
 	 *            The {@link PrintStream} to use as the logger
 	 */
 	public GridTimer(PrintStream stream) {
-		this.events = new Hashtable<String, Event>();
+		this.events = new HashMap<>();
 		this.logger = stream;
 	}
 

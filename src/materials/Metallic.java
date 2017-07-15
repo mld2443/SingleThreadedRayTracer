@@ -34,6 +34,8 @@ public class Metallic extends Material {
 		// Apply our fuzziness inside this if block
 		if (fuzz > 0.0f)
 			reflected = Vector.sum(reflected, Vector.randomInUnitSphere().scale(fuzz));
+		
+		reflected = reflected.normalize();
 
 		final Ray bounce = new Ray(collision, reflected);
 
