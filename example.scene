@@ -18,7 +18,7 @@ camera
 
 
 // Materials
-lambertian White
+lambertian Matte White
   color #FFFFFF
   
 lambertian Matte Green
@@ -35,17 +35,12 @@ metallic Gold
 
 // Shapes
 plane Floor
-  color White
+  material Matte White
   position (0,0,0)
   normal (0,0,1)
 
-//quadric Crazy Shape
-//  color Matte Green
-//  position (30, -30, 15)
-//  equation (2,2,2,0,0,0,0,0,0,-6)
-
 sphere Big Green Sphere
-  material Matte Green
+  material Gold
   position (30,-30,15)
   radius 15
 
@@ -54,7 +49,12 @@ sphere Looking Glass
   position (28,0,5)
   radius 5
 
-sphere Gold orb
-  material Gold
-  position (37,4,4)
-  radius 4
+quadric Cylinder
+  material Matte Green
+  position (38,5,4)
+  equation (1,1,0,0,0,0,0,0,0,-16)
+
+//sphere Gold orb
+//  material Gold
+//  position (37,4,4)
+//  radius 4
