@@ -25,7 +25,7 @@ public class Camera {
 	private static final Random rand = new Random();
 
 	/**
-	 * The location of the Camera relative to the {@link Camera#origin}.
+	 * The location of the Camera in space.
 	 */
 	public final Vector position;
 
