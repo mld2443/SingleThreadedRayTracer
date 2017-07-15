@@ -191,15 +191,17 @@ public final class Vector {
 	 *      Snell's Law</a>
 	 */
 	public static Vector refract(final Vector incoming, final Vector normal, final float eta) {
-		final float incedent = dot(incoming, normal);
-		final float discriminant = 1.0f - ((eta * eta) * (1.0f - (incedent * incedent)));
+		final float cosI = -dot(incoming, normal);
+		final float sinT2 = eta * eta * (1.0f - cosI * cosI);
 		
-		if (discriminant <= 0) {
+		if (sinT2 > 1.0f) {
 			// Total internal reflection
 			return null;
 		}
 		
-		return sub(sub(incoming, normal.scale(incedent)).scale(eta), normal.scale((float) Math.sqrt(discriminant)));
+		final float cosT = (float) Math.sqrt(1.0f - sinT2);
+		
+		return Vector.sum(incoming.scale(eta), normal.scale(eta * cosI - cosT));
 	}
 
 	@Override
