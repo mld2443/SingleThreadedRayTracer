@@ -74,7 +74,7 @@ public class Quadric extends Shape {
 		final float dy = (2 * equation.B * relative.y + equation.D * relative.z + equation.F * relative.x + equation.H);
 		final float dz = (2 * equation.C * relative.z + equation.D * relative.y + equation.E * relative.x + equation.I);
 
-		return new Vector(dx, dy, dz);
+		return new Vector(dx, dy, dz).normalize();
 	}
 
 	@Override
