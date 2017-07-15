@@ -19,6 +19,15 @@ public class Dielectric extends Material {
 	 */
 	private static final Random rand = new Random();
 
+	/**
+	 * Constructor for a new dielectric material. For reference, the refraction
+	 * index of a vacuum (and approximately air) is 1.0; water is about 1.33;
+	 * glass is closer to 1.52 to 1.62; diamond is about 2.42.
+	 * 
+	 * @param color Color of the material; Black will make it completely opaque
+	 * @param refractionIndex The index of refraction for this material
+	 * @see <a href="https://en.wikipedia.org/wiki/Refractive_index">Wikipedia: Refractive Index</a>
+	 */
 	public Dielectric(final Color color, final float refractionIndex) {
 		super(color);
 		this.refractionIndex = refractionIndex;
@@ -60,7 +69,7 @@ public class Dielectric extends Material {
 
 		// Reflect with probability given by the Schlick approximation, or if
 		// there's Total Internal Reflection
-		if (refracted == null || rand.nextFloat() > schlickApproximation(cosX, sceneIndex)) {
+		if (refracted == null || rand.nextFloat() < schlickApproximation(cosX, sceneIndex)) {
 			return new Ray(collision, Vector.reflect(incoming.direction, normal));
 		}
 

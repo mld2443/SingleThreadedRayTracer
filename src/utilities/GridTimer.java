@@ -165,8 +165,6 @@ public class GridTimer implements GridTimerDelegate {
 	 *         takes to complete ready to be output into a file
 	 */
 	public BufferedImage gridHeatmap() throws TimerEventException {
-		//FIXME this is returning only cyan
-		
 		// This action is not instantaneous, might as well time it
 		eventStart("Generate Heatmap");
 
@@ -187,7 +185,7 @@ public class GridTimer implements GridTimerDelegate {
 					low = element;
 			}
 		}
-
+		
 		// calculate the distance between the two extremes
 		final double span = (double) (high - low);
 
