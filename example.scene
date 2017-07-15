@@ -9,9 +9,6 @@
 // Scene details
 scene
   index 1.0
-//  sky Gradient
-//    color #FFFFFF
-//    color #80A0FF
 
 // Camera position and angle
 camera
@@ -42,15 +39,15 @@ plane Floor
   position (0,0,0)
   normal (0,0,1)
 
-quadric Crazy Shape
-  color Matte Green
-  position (30, -30, 15)
-  equation (2,2,2,0,0,0,0,0,0,-6)
+//quadric Crazy Shape
+//  color Matte Green
+//  position (30, -30, 15)
+//  equation (2,2,2,0,0,0,0,0,0,-6)
 
-//sphere Big Green Sphere
-//  material Matte Green
-//  position (30,-30,15)
-//  radius 15
+sphere Big Green Sphere
+  material Matte Green
+  position (30,-30,15)
+  radius 15
 
 sphere Looking Glass
   material Teal Glass
