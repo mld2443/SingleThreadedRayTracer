@@ -26,7 +26,7 @@ public class Metallic extends Material {
 	 *            The fuzziness; 0.0 for mirror finish
 	 */
 	public Metallic(final Color color, final float fuzz) {
-		super(color);
+		super(color, true);
 		this.fuzz = fuzz;
 	}
 
@@ -55,10 +55,10 @@ public class Metallic extends Material {
 
 		// Metallic surfaces have the concept of a front and back side; If the
 		// ray hits the front, it reflects
-		if (Vector.dot(bounce.direction, normal) > 0)
-			return bounce;
+		//if (Vector.dot(bounce.direction, normal) > 0)
+		return bounce;
 
 		// If the ray hits the back side, it is absorbed.
-		return null;
+		//return null;
 	}
 }

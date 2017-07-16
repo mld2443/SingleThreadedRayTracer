@@ -36,7 +36,7 @@ public class Dielectric extends Material {
 	public Dielectric(final Color color, final float refractionIndex) {
 		// Since refracted materials tend to appear darker, we lighten them up
 		// so the color appears correct
-		super(color.applyTransform(channel -> (float) Math.sqrt(channel)));
+		super(color.applyTransform(channel -> (float) Math.sqrt(channel)), false);
 		this.refractionIndex = refractionIndex;
 	}
 

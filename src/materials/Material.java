@@ -13,14 +13,16 @@ import utilities.Vector;
  */
 public abstract class Material {
 	public final Color color;
+	public final Boolean oneSided;
 	
 	/**
 	 * Protected constructor for subclasses to set the color.
 	 * 
 	 * @param color Color of this material
 	 */
-	protected Material(Color color) {
+	protected Material(final Color color, final Boolean oneSided) {
 		this.color = color;
+		this.oneSided = oneSided;
 	}
 	
 	/**

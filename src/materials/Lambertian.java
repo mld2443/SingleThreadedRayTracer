@@ -25,7 +25,7 @@ public class Lambertian extends Material {
 	 *      Wikipedia: Lambertian Reflactance</a>
 	 */
 	public Lambertian(final Color color) {
-		super(color);
+		super(color, false);
 	}
 
 	/**

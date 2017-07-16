@@ -63,8 +63,11 @@ public abstract class Shape {
 		if (distance == null)
 			return null;
 
-		Vector point = ray.project(distance);
+		final Vector point = ray.project(distance), normal = computeNormalAt(point);
+		
+		if (material.oneSided && Vector.dot(ray.direction, normal) >= 0.0f)
+			return null;
 
-		return new Intersection(distance, point, computeNormalAt(point), material);
+		return new Intersection(distance, point, normal, material);
 	}
 }
