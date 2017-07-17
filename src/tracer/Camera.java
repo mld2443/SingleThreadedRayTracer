@@ -52,7 +52,7 @@ public class Camera {
 	 * @see <a href="https://en.wikipedia.org/wiki/Viewing_frustum">Wikipedia:
 	 *      Viewing Frustum</a>
 	 */
-	public Range<Float> frustum;
+	public Range<Double> frustum;
 
 	/**
 	 * Dimensions of a single pixel in 3D space relative to the camera position
@@ -99,13 +99,13 @@ public class Camera {
 	 *            The range of our camera, beyond which is sky.
 	 */
 	Camera(final Vector position, final Vector direction, final int width, final int height, final int sampling,
-			final int depth, final float FOV) {
+			final int depth, final double FOV) {
 		this.position = position;
 		this.width = width;
 		this.height = height;
 		this.sampling = sampling;
 		this.depth = depth;
-		this.frustum = new Range<Float>(0.1f, 1000.0f);
+		this.frustum = new Range<Double>(0.1, 1000.0);
 
 		aimCamera(FOV, direction, new Vector(0.0f, 0.0f, 1.0f));
 	}
@@ -122,21 +122,21 @@ public class Camera {
 	 * @param up
 	 *            The upward direction, usually <0,0,1>
 	 */
-	public void aimCamera(final float FOV, final Vector direction, final Vector up) {
+	public void aimCamera(final double FOV, final Vector direction, final Vector up) {
 		final Vector unitDirection = direction.normalize();
 
 		// Calculate the screen dimensions given the FOV
 		// These are actually at 1/2 factor, but that's useful later
-		final float screenWidth = (float) Math.tan(Math.toRadians(FOV / 2.0f));
-		final float screenHeight = (((float) height) / ((float) width)) * screenWidth;
+		final double screenWidth = Math.tan(Math.toRadians(FOV / 2.0f));
+		final double screenHeight = (((double) height) / ((double) width)) * screenWidth;
 
 		// Calculate the coordinate frame for screenspace
 		final Vector iStar = Vector.cross(up, unitDirection).normalize();
 		final Vector jStar = Vector.cross(iStar, unitDirection).normalize();
 
 		// Compute the dimensions of a pixel represented in screenspace
-		this.iHat = iStar.scale(2 * screenWidth / (float) width);
-		this.jHat = jStar.scale(2 * screenHeight / (float) height);
+		this.iHat = iStar.scale(2 * screenWidth / (double) width);
+		this.jHat = jStar.scale(2 * screenHeight / (double) height);
 
 		// The top left of the screenspace is the origin of our image
 		this.origin = Vector.sum(unitDirection, iStar.scale(-screenWidth), jStar.scale(-screenHeight));
@@ -286,8 +286,8 @@ public class Camera {
 		// Collect samples of the scene for this current pixel
 		for (int s = 0; s < sampling; s++) {
 			// Randomly generate offsets for the current subsample
-			final float xCoord = x + rand.nextFloat();
-			final float yCoord = y + rand.nextFloat();
+			final double xCoord = x + rand.nextDouble();
+			final double yCoord = y + rand.nextDouble();
 
 			// Get the subsample position and construct a ray from it
 			final Vector screenSpacePosition = Vector.sum(origin, iHat.scale(xCoord), jHat.scale(yCoord));
@@ -300,7 +300,7 @@ public class Camera {
 		pixel = pixel.reduce(sampling);
 		
 		// This brightens the image
-		//pixel = pixel.applyTransform(v -> (float) Math.sqrt(v));
+		//pixel = pixel.applyTransform(v -> Math.sqrt(v));
 		
 		// This darkens the image
 		//pixel = pixel.applyTransform(v -> v*v);

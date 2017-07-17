@@ -25,11 +25,11 @@ public class Quadric extends Shape {
 	 * @author mld2443
 	 */
 	public static class Equation {
-		final float A, B, C, D, E, F, G, H, I, J;
+		final double A, B, C, D, E, F, G, H, I, J;
 		final Vector ABC, DEF, GHI;
 
-		public Equation(final float A, final float B, final float C, final float D, final float E, final float F,
-				final float G, final float H, final float I, final float J) {
+		public Equation(final double A, final double B, final double C, final double D, final double E, final double F,
+				final double G, final double H, final double I, final double J) {
 			this.A = A;
 			this.B = B;
 			this.C = C;
@@ -60,16 +60,16 @@ public class Quadric extends Shape {
 					if (values.length != 10)
 						throw new SceneFormattingException("Unknown Equation format: " + desc);
 
-					this.A = Float.parseFloat(values[0]);
-					this.B = Float.parseFloat(values[1]);
-					this.C = Float.parseFloat(values[2]);
-					this.D = Float.parseFloat(values[3]);
-					this.E = Float.parseFloat(values[4]);
-					this.F = Float.parseFloat(values[5]);
-					this.G = Float.parseFloat(values[6]);
-					this.H = Float.parseFloat(values[7]);
-					this.I = Float.parseFloat(values[8]);
-					this.J = Float.parseFloat(values[9]);
+					this.A = Double.parseDouble(values[0]);
+					this.B = Double.parseDouble(values[1]);
+					this.C = Double.parseDouble(values[2]);
+					this.D = Double.parseDouble(values[3]);
+					this.E = Double.parseDouble(values[4]);
+					this.F = Double.parseDouble(values[5]);
+					this.G = Double.parseDouble(values[6]);
+					this.H = Double.parseDouble(values[7]);
+					this.I = Double.parseDouble(values[8]);
+					this.J = Double.parseDouble(values[9]);
 					ABC = new Vector(A, B, C);
 					DEF = new Vector(D, E, F);
 					GHI = new Vector(G, H, I);
@@ -97,7 +97,7 @@ public class Quadric extends Shape {
 		super(material, position);
 		this.equation = equation;
 	}
-	
+
 	/**
 	 * Constructs a new Quadric from a list of properties.
 	 * 
@@ -118,54 +118,54 @@ public class Quadric extends Shape {
 	@Override
 	protected Vector computeNormalAt(final Vector point) {
 		// Relative direction of the point to the Quadric
-		final Vector relative = Vector.sub(point, position);
+		final Vector r = Vector.sub(point, position);
 
 		// This is the literal derivative of the Quadric at point p
-		final float dx = (2 * equation.A * relative.x + equation.E * relative.z + equation.F * relative.y + equation.G);
-		final float dy = (2 * equation.B * relative.y + equation.D * relative.z + equation.F * relative.x + equation.H);
-		final float dz = (2 * equation.C * relative.z + equation.D * relative.y + equation.E * relative.x + equation.I);
+		final double dx = (2 * equation.A * r.x + equation.E * r.z + equation.F * r.y + equation.G);
+		final double dy = (2 * equation.B * r.y + equation.D * r.z + equation.F * r.x + equation.H);
+		final double dz = (2 * equation.C * r.z + equation.D * r.y + equation.E * r.x + equation.I);
 
 		return new Vector(dx, dy, dz).normalize();
 	}
 
 	@Override
-	protected Float computeNearestIntersection(final Ray ray, final Range<Float> frustum) {
+	protected Double computeNearestIntersection(final Ray ray, final Range<Double> frustum) {
 		// Calculate the positions of the camera and the ray relative to the
 		// quadric
-		Vector rCam = Vector.sub(ray.origin, position);
-		Vector rRay = ray.direction;
+		final Vector rCam = Vector.sub(ray.origin, position);
+		final Vector rRay = ray.direction;
 
 		// Pre-calculate these values for our quadratic equation; doing it this
 		// way would make more sense if our vector operations were SIMD
-		Vector V1 = Vector.inlineMultiply(rRay, rRay);
-		Vector V2 = new Vector(rRay.x * rRay.y, rRay.y * rRay.z, rRay.z * rRay.x).scale(2);
-		Vector V3 = Vector.inlineMultiply(rCam, rRay);
-		Vector V4 = new Vector(rRay.x * rCam.y + rCam.x * rRay.y, rCam.y * rRay.z + rRay.y * rCam.z,
+		final Vector V1 = Vector.inlineMultiply(rRay, rRay);
+		final Vector V2 = new Vector(rRay.x * rRay.y, rRay.y * rRay.z, rRay.z * rRay.x).scale(2);
+		final Vector V3 = Vector.inlineMultiply(rCam, rRay);
+		final Vector V4 = new Vector(rRay.x * rCam.y + rCam.x * rRay.y, rCam.y * rRay.z + rRay.y * rCam.z,
 				rCam.x * rRay.z + rRay.x * rCam.z);
-		Vector V5 = rRay;
-		Vector V6 = Vector.inlineMultiply(rCam, rCam);
-		Vector V7 = new Vector(rCam.x * rCam.y, rCam.y * rCam.z, rCam.z * rCam.x).scale(2);
-		Vector V8 = rCam.scale(2);
+		final Vector V5 = rRay;
+		final Vector V6 = Vector.inlineMultiply(rCam, rCam);
+		final Vector V7 = new Vector(rCam.x * rCam.y, rCam.y * rCam.z, rCam.z * rCam.x).scale(2);
+		final Vector V8 = rCam.scale(2);
 
 		// Calculate the quadratic coefficients
-		float A = Vector.dot(equation.ABC, V1) + Vector.dot(equation.DEF, V2);
-		float B = Vector.dot(equation.ABC, V3) + Vector.dot(equation.DEF, V4) + Vector.dot(equation.GHI, V5);
-		float C = Vector.dot(equation.ABC, V6) + Vector.dot(equation.DEF, V7) + Vector.dot(equation.GHI, V8)
+		final double A = Vector.dot(equation.ABC, V1) + Vector.dot(equation.DEF, V2);
+		final double B = Vector.dot(equation.ABC, V3) + Vector.dot(equation.DEF, V4) + Vector.dot(equation.GHI, V5);
+		final double C = Vector.dot(equation.ABC, V6) + Vector.dot(equation.DEF, V7) + Vector.dot(equation.GHI, V8)
 				+ equation.J;
 
 		// Calculate the squared value for our quadratic formula
-		float square = B * B - A * C;
+		final double square = B * B - A * C;
 
 		// No collision if the root is imaginary
 		if (square < 0)
 			return null;
 
 		// Take its square root if it's real
-		float root = (float) Math.sqrt(square);
+		final double root = Math.sqrt(square);
 
 		// Calculate both intersections
-		float D1 = (-B - root) / A;
-		float D2 = (-B + root) / A;
+		final double D1 = (-B - root) / A;
+		final double D2 = (-B + root) / A;
 
 		// Return closest intersection thats in the frustum
 		if (frustum.contains(D1))

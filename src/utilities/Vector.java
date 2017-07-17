@@ -12,7 +12,7 @@ import tracer.Engine.SceneFormattingException;
  */
 public final class Vector {
 	// TODO: determine speed difference if using doubles
-	public final float x, y, z;
+	public final double x, y, z;
 	private final static Random gen = new Random();
 
 	/**
@@ -31,12 +31,12 @@ public final class Vector {
 	 * @param y
 	 * @param z
 	 */
-	public Vector(final float x, final float y, final float z) {
+	public Vector(final double x, final double y, final double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	/**
 	 * Constructs a Vector from a string description.
 	 * 
@@ -47,17 +47,17 @@ public final class Vector {
 	public Vector(final String desc) throws SceneFormattingException {
 		try {
 			if (desc.startsWith("(") && desc.endsWith(")")) {
-				String[] values = desc.substring(1,desc.length()-1).split(",");
-				
+				String[] values = desc.substring(1, desc.length() - 1).split(",");
+
 				if (values.length != 3)
 					throw new SceneFormattingException("Unknown Vector format: " + desc);
-				
-				x = Float.parseFloat(values[0]);
-				y = Float.parseFloat(values[1]);
-				z = Float.parseFloat(values[2]);
+
+				x = Double.parseDouble(values[0]);
+				y = Double.parseDouble(values[1]);
+				z = Double.parseDouble(values[2]);
 			} else
 				throw new SceneFormattingException("Unknown Vector format: " + desc);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			throw new SceneFormattingException("Unknown Vector format: " + desc);
 		}
 	}
@@ -65,8 +65,8 @@ public final class Vector {
 	/**
 	 * @return the length of the vector
 	 */
-	public float magnitude() {
-		return (float) Math.sqrt(x * x + y * y + z * z);
+	public double magnitude() {
+		return Math.sqrt(x * x + y * y + z * z);
 	}
 
 	/**
@@ -80,8 +80,7 @@ public final class Vector {
 	 * @return a randomly generated vector with a length of 1.0
 	 */
 	public static Vector randomInUnitSphere() {
-		return new Vector((float) gen.nextGaussian(), (float) gen.nextGaussian(), (float) gen.nextGaussian())
-				.normalize();
+		return new Vector(gen.nextGaussian(), gen.nextGaussian(), gen.nextGaussian()).normalize();
 	}
 
 	////////////////
@@ -100,18 +99,19 @@ public final class Vector {
 	/**
 	 * Vector summation. Takes any number of vectors.
 	 * 
-	 * @param operands Variable number of operands
+	 * @param operands
+	 *            Variable number of operands
 	 * @return Vector summation
 	 */
 	public static Vector sum(final Vector... operands) {
-		float x = 0.0f, y = 0.0f, z = 0.0f;
-		
+		double x = 0.0, y = 0.0, z = 0.0;
+
 		for (Vector v : operands) {
 			x += v.x;
 			y += v.y;
 			z += v.z;
 		}
-		
+
 		return new Vector(x, y, z);
 	}
 
@@ -143,10 +143,10 @@ public final class Vector {
 	 * @param v
 	 *            Vector
 	 * @param factor
-	 *            float
+	 *            double
 	 * @return scaled vector
 	 */
-	public Vector divide(final float factor) {
+	public Vector divide(final double factor) {
 		return new Vector(x / factor, y / factor, z / factor);
 	}
 
@@ -156,9 +156,10 @@ public final class Vector {
 	 * @param v
 	 *            vector to scale
 	 * @param factor
+	 *            double
 	 * @return scaled vector
 	 */
-	public Vector scale(final float factor) {
+	public Vector scale(final double factor) {
 		return new Vector(x * factor, y * factor, z * factor);
 	}
 
@@ -172,7 +173,7 @@ public final class Vector {
 	 *            Vector
 	 * @return vector dot-product
 	 */
-	public static float dot(final Vector lhs, final Vector rhs) {
+	public static double dot(final Vector lhs, final Vector rhs) {
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 	}
 
@@ -200,7 +201,7 @@ public final class Vector {
 	 * @return A vector reflection
 	 */
 	public static Vector reflect(final Vector incoming, final Vector normal) {
-		return sub(incoming, normal.scale(2.0f * dot(incoming, normal)));
+		return sub(incoming, normal.scale(2.0 * dot(incoming, normal)));
 	}
 
 	/**
@@ -217,17 +218,17 @@ public final class Vector {
 	 * @see <a href="https://en.wikipedia.org/wiki/Snell%27s_law">Wkipedia:
 	 *      Snell's Law</a>
 	 */
-	public static Vector refract(final Vector incoming, final Vector normal, final float eta) {
-		final float cosI = -dot(incoming, normal);
-		final float sinT2 = eta * eta * (1.0f - cosI * cosI);
-		
+	public static Vector refract(final Vector incoming, final Vector normal, final double eta) {
+		final double cosI = -dot(incoming, normal);
+		final double sinT2 = eta * eta * (1.0 - cosI * cosI);
+
 		if (sinT2 > 1.0f) {
 			// Total internal reflection
 			return null;
 		}
-		
-		final float cosT = (float) Math.sqrt(1.0f - sinT2);
-		
+
+		final double cosT = Math.sqrt(1.0 - sinT2);
+
 		return Vector.sum(incoming.scale(eta), normal.scale(eta * cosI - cosT));
 	}
 
@@ -235,7 +236,7 @@ public final class Vector {
 	public boolean equals(Object obj) {
 		Vector v = (Vector) obj;
 
-		final float error = v.x + v.y + v.z - x - y - z;
+		final double error = v.x + v.y + v.z - x - y - z;
 
 		// build in some small tolerance
 		return error < 0.00001;

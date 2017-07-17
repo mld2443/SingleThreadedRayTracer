@@ -20,12 +20,12 @@ public class Scene {
 	/**
 	 * The index of refraction of the space outside of any objects.
 	 */
-	public final float refractionIndex;
+	public final double refractionIndex;
 
 	/**
 	 * The color of the sky. This is used in {@link Scene#skyBox(Vector)}.
 	 */
-	public Color sky = new Color(0.5f, 0.7f, 1.0f);
+	public Color sky = new Color(0.3, 0.5, 1.0);
 
 	/**
 	 * This is the container for our scene's shapes.
@@ -39,7 +39,7 @@ public class Scene {
 	 * @param refractionIndex
 	 *            The index of refraction of the space outside shapes
 	 */
-	public Scene(final float refractionIndex) {
+	public Scene(final double refractionIndex) {
 		this.refractionIndex = refractionIndex;
 		this.things = new LinkedList<>();
 	}
@@ -67,7 +67,7 @@ public class Scene {
 	 * @return A color from the gradient
 	 */
 	private Color skyBox(final Vector direction) {
-		final float interpolate = (0.5f * (direction.z + 1.0f));
+		final double interpolate = (0.5 * (direction.z + 1.0));
 		return Color.linearBlend(sky, Color.white(), interpolate);
 	}
 
@@ -81,7 +81,7 @@ public class Scene {
 	 * @param window
 	 * @return
 	 */
-	public Color preview(final Ray ray, final Range<Float> window) {
+	public Color preview(final Ray ray, final Range<Double> window) {
 		// Check to see if our ray hits an object, or just shoots into the sky
 		final Intersection nearest = findNearest(ray, window);
 
@@ -90,7 +90,7 @@ public class Scene {
 			return skyBox(ray.direction);
 
 		// Get the color of that object and apply shading to it
-		final float interpolate = (0.5f * (nearest.normal.z + 1.0f));
+		final double interpolate = (0.5 * (nearest.normal.z + 1.0));
 		final Color sample = Color.linearBlend(Color.black(), nearest.material.color, interpolate);
 
 		return sample;
@@ -111,7 +111,7 @@ public class Scene {
 	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting">Wikipedia: Ray
 	 *      Casting</a>
 	 */
-	public Color castRay(final Ray ray, final Range<Float> window, final int depth) {
+	public Color castRay(final Ray ray, final Range<Double> window, final int depth) {
 		// Base case; try changing the color and seeing what you get!
 		if (depth <= 0)
 			return Color.black();
@@ -133,7 +133,7 @@ public class Scene {
 			return Color.black();
 
 		// Finally, we blend colors recursively
-		Range<Float> newWindow = new Range<Float>(window.lower, window.upper - nearest.distance);
+		Range<Double> newWindow = new Range<>(window.lower, window.upper - nearest.distance);
 
 		return Color.mix(sample, castRay(bounce, newWindow, depth - 1));
 	}
@@ -148,18 +148,18 @@ public class Scene {
 	 *            The range in which we check for collisions
 	 * @return The nearest detected intersection
 	 */
-	private Intersection findNearest(final Ray ray, final Range<Float> window) {
+	private Intersection findNearest(final Ray ray, final Range<Double> window) {
 		// total_rays += 1;
 
 		Intersection nearest = null;
-		Range<Float> currentWindow = window;
+		Range<Double> currentWindow = window;
 
 		// This is a brute force check of every object in the scene
 		for (Shape shape : things) {
 			// If our ray has hit something already, reduce the window to check
 			// for new collisions
 			if (nearest != null)
-				currentWindow = new Range<Float>(window.lower, nearest.distance);
+				currentWindow = new Range<>(window.lower, nearest.distance);
 
 			Intersection candidate = shape.intersectRay(ray, currentWindow);
 

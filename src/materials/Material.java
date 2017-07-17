@@ -34,5 +34,5 @@ public abstract class Material {
 	 * @param sceneIndex Index of refraction for the global scene
 	 * @return
 	 */
-	abstract public Ray scatter(final Ray incoming, final Vector collision, final Vector normal, final float sceneIndex);
+	abstract public Ray scatter(final Ray incoming, final Vector collision, final Vector normal, final double sceneIndex);
 }
