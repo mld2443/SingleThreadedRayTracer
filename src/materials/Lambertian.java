@@ -40,7 +40,7 @@ public class Lambertian extends Material {
 	}
 
 	@Override
-	public Ray scatter(final Ray incoming, final Vector collision, final Vector normal, final float sceneIndex) {
+	public Ray scatter(final Ray incoming, final Vector collision, final Vector normal, final double sceneIndex) {
 		Vector target = Vector.sum(collision, normal, Vector.randomInUnitSphere());
 
 		return new Ray(collision, Vector.sub(target, collision));

@@ -14,7 +14,7 @@ import utilities.Vector;
  * @author mld2443
  */
 public class Dielectric extends Material {
-	private final float refractionIndex;
+	private final double refractionIndex;
 
 	/**
 	 * A static Random object with which to generate random floats [0,1).
@@ -36,7 +36,7 @@ public class Dielectric extends Material {
 	public Dielectric(final Color color, final float refractionIndex) {
 		// Since refracted materials tend to appear darker, we lighten them up
 		// so the color appears correct
-		super(color.applyTransform(channel -> (float) Math.sqrt(channel)), false);
+		super(color.applyTransform(channel -> Math.sqrt(channel)), false);
 		this.refractionIndex = refractionIndex;
 	}
 
@@ -62,17 +62,17 @@ public class Dielectric extends Material {
 	 * @see <a href="https://en.wikipedia.org/wiki/Schlick%27s_approximation">
 	 *      Wikipedia: Schlick's Approximation</a>
 	 */
-	private float schlickApproximation(final float cosX, final float sceneIndex) {
-		float r0 = (sceneIndex - refractionIndex) / (sceneIndex + refractionIndex);
+	private double schlickApproximation(final double cosX, final double sceneIndex) {
+		double r0 = (sceneIndex - refractionIndex) / (sceneIndex + refractionIndex);
 		r0 *= r0;
-		final float x = 1.0f - cosX;
-		return r0 + (1.0f - r0) * x * x * x * x * x;
+		final double x = 1.0 - cosX;
+		return r0 + (1.0 - r0) * x * x * x * x * x;
 	}
 
 	@Override
-	public Ray scatter(final Ray incoming, final Vector collision, final Vector normal, final float sceneIndex) {
-		final float entering = Vector.dot(incoming.direction, normal);
-		float cosX;
+	public Ray scatter(final Ray incoming, final Vector collision, final Vector normal, final double sceneIndex) {
+		final double entering = Vector.dot(incoming.direction, normal);
+		double cosX;
 		Vector refracted;
 
 		if (entering > 0) {
@@ -87,7 +87,7 @@ public class Dielectric extends Material {
 
 		// Reflect with probability given by the Schlick approximation, or if
 		// there's Total Internal Reflection
-		if (refracted == null || rand.nextFloat() < schlickApproximation(cosX, sceneIndex)) {
+		if (refracted == null || rand.nextDouble() < schlickApproximation(cosX, sceneIndex)) {
 			return new Ray(collision, Vector.reflect(incoming.direction, normal));
 		}
 

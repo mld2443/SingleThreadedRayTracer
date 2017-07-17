@@ -25,7 +25,7 @@ public class Sphere extends Quadric {
 	 * @param radius
 	 *            The radius of the sphere
 	 */
-	public Sphere(final Material material, final Vector position, final float radius) {
+	public Sphere(final Material material, final Vector position, final double radius) {
 		super(material, position, new Quadric.Equation(1, 1, 1, 0, 0, 0, 0, 0, 0, -(radius * radius)));
 	}
 
@@ -40,7 +40,7 @@ public class Sphere extends Quadric {
 	 * @throws SceneFormattingException
 	 */
 	public Sphere(Material material, Map<String, String> properties) throws SceneFormattingException {
-		this(material, new Vector(properties.get("position")), Float.parseFloat(properties.get("radius")));
+		this(material, new Vector(properties.get("position")), Double.parseDouble(properties.get("radius")));
 	}
 
 	/**

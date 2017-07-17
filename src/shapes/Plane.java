@@ -17,7 +17,7 @@ import utilities.Vector;
  */
 public class Plane extends Shape {
 	private final Vector normal;
-	private final float normalDotPosition;
+	private final double normalDotPosition;
 
 	/**
 	 * Constructs a plane.
@@ -60,8 +60,8 @@ public class Plane extends Shape {
 	}
 
 	@Override
-	protected Float computeNearestIntersection(final Ray ray, final Range<Float> frustum) {
-		final float denominator = Vector.dot(normal, ray.direction);
+	protected Double computeNearestIntersection(final Ray ray, final Range<Double> frustum) {
+		final double denominator = Vector.dot(normal, ray.direction);
 
 		// If the ray direction is parallel to our plane, there is no
 		// intersection
@@ -69,7 +69,7 @@ public class Plane extends Shape {
 			return null;
 
 		// Planar equation
-		final float distance = (normalDotPosition - Vector.dot(normal, ray.origin)) / denominator;
+		final double distance = (normalDotPosition - Vector.dot(normal, ray.origin)) / denominator;
 
 		// Return the distance if it's within our bounds
 		if (frustum.contains(distance))

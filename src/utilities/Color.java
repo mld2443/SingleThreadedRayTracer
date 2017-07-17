@@ -5,14 +5,14 @@ import java.util.function.Function;
 import tracer.Engine.SceneFormattingException;;
 
 /**
- * A color class capable of holding values with floating point precision, and
+ * A color class capable of holding values with double floating point precision, and
  * brighter than white values. Intended for use with blending and Color
  * operations until export.
  * 
  * @author mld2443
  */
 public class Color {
-	public final float r, g, b;
+	public final double r, g, b;
 
 	/**
 	 * Constructs a color with specified red, green and blue values.
@@ -24,7 +24,7 @@ public class Color {
 	 * @param b
 	 *            Blue brightness
 	 */
-	public Color(final float r, final float g, final float b) {
+	public Color(final double r, final double g, final double b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
@@ -40,9 +40,9 @@ public class Color {
 	public Color(final String desc) throws SceneFormattingException {
 		try {
 			if (desc.startsWith("#") && desc.length() == 7) {
-				r = ((float) Long.parseLong(desc.substring(1, 3), 16)) / 255.0f;
-				g = ((float) Long.parseLong(desc.substring(3, 5), 16)) / 255.0f;
-				b = ((float) Long.parseLong(desc.substring(5, 7), 16)) / 255.0f;
+				r = ((double) Long.parseLong(desc.substring(1, 3), 16)) / 255.0;
+				g = ((double) Long.parseLong(desc.substring(3, 5), 16)) / 255.0;
+				b = ((double) Long.parseLong(desc.substring(5, 7), 16)) / 255.0;
 			} else
 				throw new SceneFormattingException("Unknown Color format: " + desc);
 		} catch (NumberFormatException e) {
@@ -57,7 +57,7 @@ public class Color {
 	 *            Function to apply
 	 * @return A new transformed Color
 	 */
-	public Color applyTransform(Function<Float, Float> transform) {
+	public Color applyTransform(Function<Double, Double> transform) {
 		return new Color(transform.apply(r), transform.apply(g), transform.apply(b));
 	}
 
@@ -88,7 +88,7 @@ public class Color {
 	 *            Factor by which we multiply every channel
 	 * @return Scaled color
 	 */
-	public Color scale(final float factor) {
+	public Color scale(final double factor) {
 		return new Color(r * factor, g * factor, b * factor);
 	}
 
@@ -100,7 +100,7 @@ public class Color {
 	 *            Factor by which we divide every channel
 	 * @return Reduced color
 	 */
-	public Color reduce(final float factor) {
+	public Color reduce(final double factor) {
 		return new Color(r / factor, g / factor, b / factor);
 	}
 
@@ -141,8 +141,8 @@ public class Color {
 	 *            Amount of how much of each color the result will be
 	 * @return A linear interpolation between the two colors
 	 */
-	public static Color linearBlend(final Color c1, final Color c2, final float interpolation) {
-		return add(c1.scale(1.0f - interpolation), c2.scale(interpolation));
+	public static Color linearBlend(final Color c1, final Color c2, final double interpolation) {
+		return add(c1.scale(1.0 - interpolation), c2.scale(interpolation));
 	}
 
 	///////////////////////
@@ -218,7 +218,7 @@ public class Color {
 	 * @return #B2B2B2
 	 */
 	public static Color lightGrey() {
-		return new Color(0.7f, 0.7f, 0.7f);
+		return new Color(0.7, 0.7, 0.7);
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class Color {
 	 * @return #4C4C4C
 	 */
 	public static Color darkGrey() {
-		return new Color(0.3f, 0.3f, 0.3f);
+		return new Color(0.3, 0.3, 0.3);
 	}
 
 	/**

@@ -44,7 +44,7 @@ public abstract class Shape {
 	 * @return the unit distance closest intersection if there is one within
 	 *         range, otherwise null
 	 */
-	abstract protected Float computeNearestIntersection(final Ray ray, final Range<Float> frustum);
+	abstract protected Double computeNearestIntersection(final Ray ray, final Range<Double> frustum);
 
 	/**
 	 * Check if our mathematically defined ray intersects our mathematically
@@ -57,8 +57,8 @@ public abstract class Shape {
 	 * @return the closest intersection if there is one within range, otherwise
 	 *         null
 	 */
-	public Intersection intersectRay(final Ray ray, final Range<Float> frustum) {
-		Float distance = computeNearestIntersection(ray, frustum);
+	public Intersection intersectRay(final Ray ray, final Range<Double> frustum) {
+		Double distance = computeNearestIntersection(ray, frustum);
 
 		if (distance == null)
 			return null;
