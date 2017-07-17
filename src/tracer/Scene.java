@@ -25,7 +25,7 @@ public class Scene {
 	/**
 	 * The color of the sky. This is used in {@link Scene#skyBox(Vector)}.
 	 */
-	public Color sky = new Color(0.5f, 0.7f, 1.0f);
+	public Color sky = new Color(0.3, 0.5, 1.0);
 
 	/**
 	 * This is the container for our scene's shapes.

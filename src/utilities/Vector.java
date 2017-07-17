@@ -47,17 +47,17 @@ public final class Vector {
 	public Vector(final String desc) throws SceneFormattingException {
 		try {
 			if (desc.startsWith("(") && desc.endsWith(")")) {
-				String[] values = desc.substring(1,desc.length()-1).split(",");
-				
+				String[] values = desc.substring(1, desc.length() - 1).split(",");
+
 				if (values.length != 3)
 					throw new SceneFormattingException("Unknown Vector format: " + desc);
-				
+
 				x = Double.parseDouble(values[0]);
 				y = Double.parseDouble(values[1]);
 				z = Double.parseDouble(values[2]);
 			} else
 				throw new SceneFormattingException("Unknown Vector format: " + desc);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			throw new SceneFormattingException("Unknown Vector format: " + desc);
 		}
 	}
@@ -156,6 +156,7 @@ public final class Vector {
 	 * @param v
 	 *            vector to scale
 	 * @param factor
+	 *            double
 	 * @return scaled vector
 	 */
 	public Vector scale(final double factor) {

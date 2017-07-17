@@ -44,7 +44,7 @@ public class Engine {
 
 		this.timer.eventStart("Parse file \"" + filename + "\"");
 		final List<Entry> descriptors = FileParser.parse(filename);
-		timer.eventStop("Parse file \"" + filename + "\"");
+		this.timer.eventStop("Parse file \"" + filename + "\"");
 
 		this.timer.eventStart("Allocate Scene and Camera");
 		allocateFromEntries(descriptors, width, height, sampling, depth);
@@ -64,16 +64,20 @@ public class Engine {
 			try {
 				switch (entry.type) {
 				case "scene":
-					final float index = Float.parseFloat(entry.properties.get("index"));
+					final double index = Double.parseDouble(entry.properties.get("index"));
 					this.scene = new Scene(index);
 					break;
 
 				case "camera":
 					final Vector pos = new Vector(entry.properties.get("position"));
 					final Vector dir = new Vector(entry.properties.get("direction"));
-					final float fov = Float.parseFloat(entry.properties.get("fov"));
+					final double fov = Double.parseDouble(entry.properties.get("fov"));
 					this.camera = new Camera(pos, dir, width, height, sampling, depth, fov);
 					this.camera.setTimer(this.timer);
+					Vector up;
+					if ((up = new Vector(entry.properties.get("position"))) != null) {
+						camera.aimCamera(fov, dir, up);
+					}
 					break;
 
 				case "lambertian":
@@ -118,24 +122,28 @@ public class Engine {
 		// Get our capture
 		final BufferedImage image = camera.captureScene(scene);
 
-		timer.eventStart("Writing image to file");
+		if (timer != null)
+			timer.eventStart("Writing image to file");
 
 		File output = new File(filename);
 		ImageIO.write(image, "png", output);
 
-		timer.eventStop("Writing image to file");
+		if (timer != null)
+			timer.eventStop("Writing image to file");
 	}
 
 	public void savePreviewTo(final String filename) throws IOException {
 		// Get our preview
 		final BufferedImage preview = camera.preview(scene);
 
-		timer.eventStart("Writing preview to file");
+		if (timer != null)
+			timer.eventStart("Writing preview to file");
 
 		File output = new File(filename);
 		ImageIO.write(preview, "png", output);
 
-		timer.eventStop("Writing preview to file");
+		if (timer != null)
+			timer.eventStop("Writing preview to file");
 	}
 
 }

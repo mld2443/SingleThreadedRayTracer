@@ -300,7 +300,7 @@ public class Camera {
 		pixel = pixel.reduce(sampling);
 		
 		// This brightens the image
-		//pixel = pixel.applyTransform(v -> (float) Math.sqrt(v));
+		//pixel = pixel.applyTransform(v -> Math.sqrt(v));
 		
 		// This darkens the image
 		//pixel = pixel.applyTransform(v -> v*v);
