@@ -1,10 +1,10 @@
-package shapes;
+package tracer.shapes;
 
-import materials.Material;
-import utilities.Intersection;
-import utilities.Range;
-import utilities.Ray;
-import utilities.Vector;
+import tracer.materials.Material;
+import tracer.utils.Intersection;
+import tracer.utils.Range;
+import tracer.utils.Ray;
+import tracer.utils.Vector;
 
 /**
  * A shape is an object that resides in 3D space, and can interact with our rays.

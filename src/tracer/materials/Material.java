@@ -1,8 +1,8 @@
-package materials;
+package tracer.materials;
 
-import utilities.Color;
-import utilities.Ray;
-import utilities.Vector;
+import tracer.utils.Color;
+import tracer.utils.Ray;
+import tracer.utils.Vector;
 
 /**
  * Abstract class which defines the common properties of materials.

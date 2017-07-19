@@ -1,4 +1,4 @@
-package utilities;
+package tracer.utils;
 
 /**
  * A class defining a geometric ray, with an origin and direction. 

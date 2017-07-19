@@ -2,12 +2,12 @@ package tracer;
 
 import java.util.LinkedList;
 
-import shapes.Shape;
-import utilities.Color;
-import utilities.Intersection;
-import utilities.Range;
-import utilities.Ray;
-import utilities.Vector;
+import tracer.shapes.Shape;
+import tracer.utils.Color;
+import tracer.utils.Intersection;
+import tracer.utils.Range;
+import tracer.utils.Ray;
+import tracer.utils.Vector;
 
 /**
  * The Scene class is a container for all the objects and properties necessary

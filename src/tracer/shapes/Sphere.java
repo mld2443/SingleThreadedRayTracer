@@ -1,16 +1,16 @@
-package shapes;
+package tracer.shapes;
 
 import java.util.Map;
 
-import materials.Material;
 import tracer.Engine.SceneFormattingException;
-import utilities.Vector;
+import tracer.materials.Material;
+import tracer.utils.Vector;
 
 /**
  * A sphere is just a Quadric with a special simple normal function.
  * 
  * @author mld2443
- * @see shapes.Quadric
+ * @see tracer.shapes.Quadric
  */
 public class Sphere extends Quadric {
 

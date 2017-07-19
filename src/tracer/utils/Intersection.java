@@ -1,6 +1,6 @@
-package utilities;
+package tracer.utils;
 
-import materials.Material;
+import tracer.materials.Material;
 
 public class Intersection {
 	public final double distance;
