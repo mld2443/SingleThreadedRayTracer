@@ -12,7 +12,7 @@ public class Tracer {
 		Engine engine;
 		
 		try {
-			engine = new Engine("example.scene", 960, 540, 20, 10, t);
+			engine = new Engine("example.scene", 960, 540, 10, 10, t);
 			//engine = new Engine("example.scene", 1920, 1080, 80, 10, t);
 			
 			//engine.savePreviewTo("preview.png");
