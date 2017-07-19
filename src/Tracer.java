@@ -2,7 +2,7 @@ import java.io.IOException;
 
 import tracer.Engine;
 import tracer.Engine.SceneFormattingException;
-import utilities.GridTimer;
+import tracer.utils.GridTimer;
 
 public class Tracer {
 
@@ -12,8 +12,10 @@ public class Tracer {
 		Engine engine;
 		
 		try {
-			engine = new Engine("example.scene", 800, 400, 100, 8, t);
+			engine = new Engine("example.scene", 960, 540, 20, 10, t);
+			//engine = new Engine("example.scene", 1920, 1080, 80, 10, t);
 			
+			//engine.savePreviewTo("preview.png");
 			engine.saveCaptureTo("capture.png");
 		} catch (SceneFormattingException | IOException e) {
 			e.printStackTrace();

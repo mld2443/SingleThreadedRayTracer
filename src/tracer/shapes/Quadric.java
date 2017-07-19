@@ -1,12 +1,12 @@
-package shapes;
+package tracer.shapes;
 
 import java.util.Map;
 
-import materials.Material;
 import tracer.Engine.SceneFormattingException;
-import utilities.Range;
-import utilities.Ray;
-import utilities.Vector;
+import tracer.materials.Material;
+import tracer.utils.Range;
+import tracer.utils.Ray;
+import tracer.utils.Vector;
 
 /**
  * A Quadric is a generalized second degree polynomial surface. Just like with a

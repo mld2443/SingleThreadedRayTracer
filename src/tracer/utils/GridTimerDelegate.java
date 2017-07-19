@@ -1,4 +1,4 @@
-package utilities;
+package tracer.utils;
 
 /**
  * A delegation interface for timing miscellaneous events as well as events

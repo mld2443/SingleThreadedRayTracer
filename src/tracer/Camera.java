@@ -2,11 +2,11 @@ package tracer;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import utilities.Color;
-import utilities.GridTimerDelegate;
-import utilities.Range;
-import utilities.Ray;
-import utilities.Vector;
+import tracer.utils.Color;
+import tracer.utils.GridTimerDelegate;
+import tracer.utils.Range;
+import tracer.utils.Ray;
+import tracer.utils.Vector;
 
 /**
  * A camera obscura, which can set up inside a virtual scene and capture an

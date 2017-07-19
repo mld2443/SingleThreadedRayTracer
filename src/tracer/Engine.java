@@ -9,17 +9,17 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import materials.Dielectric;
-import materials.Lambertian;
-import materials.Material;
-import materials.Metallic;
-import shapes.Plane;
-import shapes.Quadric;
-import shapes.Sphere;
-import utilities.FileParser;
-import utilities.GridTimerDelegate;
-import utilities.FileParser.Entry;
-import utilities.Vector;
+import tracer.materials.Dielectric;
+import tracer.materials.Lambertian;
+import tracer.materials.Material;
+import tracer.materials.Metallic;
+import tracer.shapes.Plane;
+import tracer.shapes.Quadric;
+import tracer.shapes.Sphere;
+import tracer.utils.FileParser;
+import tracer.utils.GridTimerDelegate;
+import tracer.utils.Vector;
+import tracer.utils.FileParser.Entry;
 
 /**
  * An Engine sets up our camera and scene.

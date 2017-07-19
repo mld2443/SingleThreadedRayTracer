@@ -1,4 +1,4 @@
-package utilities;
+package tracer.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.PrintStream;

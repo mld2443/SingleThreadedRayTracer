@@ -1,11 +1,11 @@
-package materials;
+package tracer.materials;
 
 import java.util.Map;
 
 import tracer.Engine.SceneFormattingException;
-import utilities.Color;
-import utilities.Ray;
-import utilities.Vector;
+import tracer.utils.Color;
+import tracer.utils.Ray;
+import tracer.utils.Vector;
 
 /**
  * A perfectly diffuse, matte material.
