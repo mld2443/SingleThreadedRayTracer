@@ -1,4 +1,8 @@
+//import java.io.File;
 import java.io.IOException;
+//import java.io.PrintStream;
+
+//import javax.imageio.ImageIO;
 
 import tracer.Engine;
 import tracer.Engine.SceneFormattingException;
@@ -12,6 +16,9 @@ public class Tracer {
 		Engine engine;
 		
 		try {
+			// This would output timing info to a file instead of System.out
+			//t.logger = new PrintStream(new File("log.txt"));
+			
 			// Declares the file to load, width, height, samples per pixel,
 			// depth per sample, timer
 			engine = new Engine("example.scene", 960, 540, 10, 10, t);
@@ -23,6 +30,9 @@ public class Tracer {
 
 			// Capture the image using regular ray-casting
 			engine.saveCaptureTo("capture.png");
+			
+			// Saves a normalized heatmap of how long each pixel took to render
+			//ImageIO.write(t.gridHeatmap(), "PNG", new File("heatmap.png"));
 		} catch (SceneFormattingException | IOException e) {
 			e.printStackTrace();
 			System.exit(1);
