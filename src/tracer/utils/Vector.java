@@ -11,7 +11,6 @@ import tracer.Engine.SceneFormattingException;
  * @author mld2443
  */
 public final class Vector {
-	// TODO: determine speed difference if using doubles
 	public final double x, y, z;
 	private final static Random gen = new Random();
 
