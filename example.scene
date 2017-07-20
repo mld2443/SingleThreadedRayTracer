@@ -13,8 +13,8 @@ scene
 // Camera position and angle
 camera
   position (0,0,7)
-  direction (12,0,-1)
-  fov 95
+  direction (18,0,-1)
+  fov 100
 
 
 // Materials
@@ -57,8 +57,8 @@ sphere Looking Glass
 
 sphere Big Back Left Sphere
   material Gunmetal
-  position (36,-20,24)
-  radius 24
+  position (30,-16,16)
+  radius 16
 
 sphere Green Sphere
   material Matte Green
@@ -67,7 +67,7 @@ sphere Green Sphere
 
 sphere Little Red Sphere
   material Shiny Red
-  position (20,6,4)
+  position (20,5,4)
   radius 4
 
 sphere Distant Blue Sphere
@@ -76,6 +76,6 @@ sphere Distant Blue Sphere
   radius 30
 
 //quadric Cylinder
-//  material Gunmetal
-//  position (38,20,0)
+//  material Matte Green
+//  position (40,20,0)
 //  equation (1,1,0, 0,0,0, 0,0,0, -16)
