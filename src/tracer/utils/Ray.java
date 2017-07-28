@@ -19,6 +19,10 @@ public class Ray {
 		this.direction = direction.normalize();
 	}
 	
+	public static Ray rayFromTarget(final Vector origin, final Vector target) {
+		return new Ray(origin, Vector.sub(target, origin));
+	}
+	
 	/**
 	 * Calculate a point that is 'distance' away from the Ray's origin along the Ray.
 	 * @param distance

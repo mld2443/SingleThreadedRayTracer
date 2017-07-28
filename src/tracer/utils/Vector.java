@@ -76,10 +76,17 @@ public final class Vector {
 	}
 
 	/**
+	 * @return a randomly generated vector with an average length of 1.0
+	 */
+	public static Vector random() {
+		return new Vector(gen.nextGaussian(), gen.nextGaussian(), gen.nextGaussian());
+	}
+
+	/**
 	 * @return a randomly generated vector with a length of 1.0
 	 */
 	public static Vector randomInUnitSphere() {
-		return new Vector(gen.nextGaussian(), gen.nextGaussian(), gen.nextGaussian()).normalize();
+		return random().normalize();
 	}
 
 	////////////////

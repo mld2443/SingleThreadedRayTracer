@@ -1,4 +1,5 @@
 package tracer;
+
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -34,6 +35,12 @@ public class Camera {
 	 * {@link Camera#aimCamera} after modifying.
 	 */
 	public int width, height;
+
+	/**
+	 * The size of our simulated aperture, indicates how out of focus things in
+	 * the foreground and background will be.
+	 */
+	public double aperture;
 
 	/**
 	 * The number of samples taken per pixel. The higher the number the better
@@ -98,36 +105,40 @@ public class Camera {
 	 * @param maxRange
 	 *            The range of our camera, beyond which is sky.
 	 */
-	Camera(final Vector position, final Vector direction, final int width, final int height, final int sampling,
-			final int depth, final double FOV) {
+	Camera(final Vector position, final Vector direction, final int width, final int height, final double aperture,
+			final int sampling, final int depth, final double FoV, final double DoF) {
 		this.position = position;
 		this.width = width;
 		this.height = height;
+		this.aperture = aperture / 2.0;
 		this.sampling = sampling;
 		this.depth = depth;
 		this.frustum = new Range<Double>(0.1, 1000.0);
 
-		aimCamera(FOV, direction, new Vector(0.0f, 0.0f, 1.0f));
+		aimCamera(FoV, DoF, direction, new Vector(0.0, 0.0, 1.0));
 	}
 
 	/**
 	 * Calculates the camera's coordinate frame and origin point, as well as
 	 * setting up the film to capture an image with.
 	 * 
-	 * @param FOV
+	 * @param FoV
 	 *            The Field of View for the camera. Should be smaller than about
 	 *            170 degrees. Smaller numbers are equivalent to a higher zoom
+	 * @param DoF
+	 *            The depth of field of the camera. everything at this distance
+	 *            is guaranteed to be in focus
 	 * @param direction
 	 *            The direction to face before capture
 	 * @param up
 	 *            The upward direction, usually <0,0,1>
 	 */
-	public void aimCamera(final double FOV, final Vector direction, final Vector up) {
+	public void aimCamera(final double FoV, final double DoF, final Vector direction, final Vector up) {
 		final Vector unitDirection = direction.normalize();
 
 		// Calculate the screen dimensions given the FOV
 		// These are actually at 1/2 factor, but that's useful later
-		final double screenWidth = Math.tan(Math.toRadians(FOV / 2.0f));
+		final double screenWidth = Math.tan(Math.toRadians(FoV / 2.0f)) * DoF;
 		final double screenHeight = (((double) height) / ((double) width)) * screenWidth;
 
 		// Calculate the coordinate frame for screenspace
@@ -139,7 +150,8 @@ public class Camera {
 		this.jHat = jStar.scale(2 * screenHeight / (double) height);
 
 		// The top left of the screenspace is the origin of our image
-		this.origin = Vector.sum(unitDirection, iStar.scale(-screenWidth), jStar.scale(-screenHeight));
+		this.origin = Vector.sum(position, unitDirection.scale(DoF), iStar.scale(-screenWidth),
+				jStar.scale(-screenHeight));
 
 		this.film = new int[width][height];
 
@@ -290,20 +302,27 @@ public class Camera {
 			final double yCoord = y + rand.nextDouble();
 
 			// Get the subsample position and construct a ray from it
-			final Vector screenSpacePosition = Vector.sum(origin, iHat.scale(xCoord), jHat.scale(yCoord));
-			final Ray cast = new Ray(position, screenSpacePosition);
+			final Vector screenSpaceWorldPosition = Vector.sum(origin, iHat.scale(xCoord), jHat.scale(yCoord));
+
+			Vector offset = new Vector();
+
+			if (aperture > 0.0) {
+				offset = Vector.random().scale(aperture);
+			}
+
+			final Ray cast = Ray.rayFromTarget(Vector.sum(position, offset), screenSpaceWorldPosition);
 
 			pixel = Color.add(pixel, scene.castRay(cast, frustum, depth));
 		}
 
 		// Color correction
 		pixel = pixel.reduce(sampling);
-		
+
 		// This brightens the image
-		//pixel = pixel.applyTransform(v -> Math.sqrt(v));
-		
+		// pixel = pixel.applyTransform(v -> Math.sqrt(v));
+
 		// This darkens the image
-		//pixel = pixel.applyTransform(v -> v*v);
+		// pixel = pixel.applyTransform(v -> v*v);
 
 		return pixel;
 	}

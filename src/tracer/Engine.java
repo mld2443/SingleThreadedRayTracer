@@ -69,15 +69,25 @@ public class Engine {
 					break;
 
 				case "camera":
-					final Vector pos = new Vector(entry.properties.get("position"));
-					final Vector dir = new Vector(entry.properties.get("direction"));
-					final double fov = Double.parseDouble(entry.properties.get("fov"));
-					this.camera = new Camera(pos, dir, width, height, sampling, depth, fov);
-					this.camera.setTimer(this.timer);
-					Vector up;
-					if ((up = new Vector(entry.properties.get("position"))) != null) {
-						camera.aimCamera(fov, dir, up);
+					Vector pos, dir, up = null;
+					double FoV, DoF, aperture;
+					
+					pos = new Vector(entry.properties.get("position"));
+					dir = new Vector(entry.properties.get("direction"));
+					FoV = Double.parseDouble(entry.properties.get("fov"));
+					try {
+						DoF = Double.parseDouble(entry.properties.get("dof"));
+						aperture = Double.parseDouble(entry.properties.get("aperture"));
+					} catch (NullPointerException e) {
+						DoF = 1.0;
+						aperture = 0.0;
 					}
+					
+					this.camera = new Camera(pos, dir, width, height, aperture, sampling, depth, FoV, DoF);
+					this.camera.setTimer(this.timer);
+					
+					if ((up = new Vector(entry.properties.get("position"))) != null)
+						camera.aimCamera(FoV, DoF, dir, up);
 					break;
 
 				case "lambertian":

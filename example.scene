@@ -12,9 +12,11 @@ scene
 
 // Camera position and angle
 camera
-  position (0,0,7)
-  direction (18,0,-1)
+  position (0,0,2)
+  direction (18,0,1)
   fov 100
+  dof 15
+  aperture 0.5
 
 
 // Materials
@@ -23,7 +25,7 @@ lambertian White
 
 dielectric Glass
   color #F0FFF0
-  index 1.2
+  index 1.52
 
 lambertian Matte Green
   color #00FF00
@@ -52,18 +54,23 @@ plane Floor
 
 sphere Looking Glass
   material Glass
-  position (9,0,6)
+  position (18,-6,6)
   radius 6
+
+sphere Near Blurry Sphere
+  material Matte Green
+  position (5,5,2)
+  radius 2
 
 sphere Big Back Left Sphere
   material Gunmetal
-  position (30,-16,16)
-  radius 16
+  position (50,-24,28)
+  radius 28
 
-sphere Green Sphere
-  material Matte Green
-  position (19,-5,3)
-  radius 3
+//sphere Green Sphere
+//  material Matte Green
+//  position (16,-5,3)
+//  radius 3
 
 sphere Little Red Sphere
   material Shiny Red
@@ -72,7 +79,7 @@ sphere Little Red Sphere
 
 sphere Distant Blue Sphere
   material Matte Blue
-  position (100,170,30)
+  position (100,30,30)
   radius 30
 
 //quadric Cylinder

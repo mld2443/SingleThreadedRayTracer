@@ -21,7 +21,7 @@ public class Tracer {
 			
 			// Declares the file to load, width, height, samples per pixel,
 			// depth per sample, timer
-			engine = new Engine("example.scene", 960, 540, 10, 10, t);
+			engine = new Engine("example.scene", 960, 540, 1000, 10, t);
 			//engine = new Engine("example.scene", 1920, 1080, 80, 10, t);
 
 			// A preview is much faster than capturing, rendering all shapes as
