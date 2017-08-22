@@ -31,7 +31,7 @@ public class Tracer {
 			// Capture the image using regular ray-casting
 			engine.saveCaptureTo("capture.png");
 			
-			System.out.println("Measured Speedup: " + t.calculateSpeedup());
+			t.logSpeedup();
 			
 			// Saves a normalized heatmap of how long each pixel took to render
 			//ImageIO.write(t.gridHeatmap(), "PNG", new File("heatmap.png"));

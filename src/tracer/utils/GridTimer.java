@@ -135,26 +135,28 @@ public class GridTimer implements GridTimerDelegate {
 
 
 	@Override
-	public double calculateSpeedup() {
-		long netGridTime = 0, elapsedTime;
-		long firstStarted = grid[0][0].startTime, lastFinished = grid[0][0].stopTime;
-		
-		for (Event[] row : grid) {
-			for (Event e : row) {
-				netGridTime += e.elapsedTime;
-				
-				if (e.startTime < firstStarted)
-					firstStarted = e.startTime;
-				if (e.stopTime > lastFinished)
-					lastFinished = e.stopTime;
+	public void logSpeedup() {
+		if (logger != null) {
+			long netGridTime = 0, firstStarted = grid[0][0].startTime, lastFinished = grid[0][0].stopTime;
+			
+			for (Event[] row : grid) {
+				for (Event e : row) {
+					netGridTime += e.elapsedTime;
+					
+					if (e.startTime < firstStarted)
+						firstStarted = e.startTime;
+					if (e.stopTime > lastFinished)
+						lastFinished = e.stopTime;
+				}
 			}
+			
+			long totalElapsedTime = lastFinished - firstStarted;
+			
+			double speedup = (double)netGridTime  / (double)totalElapsedTime;
+			double average = (double)netGridTime  / (double)(width * height);
+			
+			logger.println("Calculated Speedup = " + speedup + "\t Average time per pixel = " + average);
 		}
-		
-		elapsedTime = lastFinished - firstStarted;
-		
-		double speedup = (double)netGridTime  / (double)elapsedTime;
-		
-		return speedup;
 	}
 
 	/**

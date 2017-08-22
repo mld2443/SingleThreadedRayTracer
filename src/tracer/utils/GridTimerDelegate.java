@@ -57,5 +57,5 @@ public interface GridTimerDelegate {
 	 */
 	public void gridEventStop(final int x, final int y);
 	
-	public double calculateSpeedup();
+	public void logSpeedup();
 }
