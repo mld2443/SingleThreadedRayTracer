@@ -1,4 +1,5 @@
 package tracer;
+
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -19,6 +20,70 @@ import tracer.utils.Vector;
  *      Casting</a>
  */
 public class Camera {
+	public class RowMaker {
+		final Scene scene;
+		final int row;
+
+		RowMaker(final Scene scene, final int row) {
+			this.scene = scene;
+			this.row = row;
+		}
+
+		public void run() {
+			for (int x = 0; x < width; x++) {
+				if (timer != null)
+					timer.gridEventStart(x, row);
+				
+				film[x][row] = getPixel(x, row).quantize();
+	
+				if (timer != null)
+					timer.gridEventStop(x, row);
+			}
+		}
+		
+		public void shutdown() {
+			System.out.println("Finished row " + (row + 1));
+		}
+		
+		/**
+		 * Helper method to sample our scene multiple times defined by
+		 * {@link Camera#sampling} and average the value. It constructs the
+		 * {@link Ray} using the screen space coordinate vectors.
+		 * @param x
+		 *            X coordinate on our virtual screen
+		 * @param y
+		 *            Y coordinate on our virtual screen
+		 * @return Average {@link Color} of this pixel
+		 */
+		private Color getPixel(final int x, final int y) {
+			Color pixel = Color.black();
+
+			// Collect samples of the scene for this current pixel
+			for (int s = 0; s < sampling; s++) {
+				// Randomly generate offsets for the current subsample
+				final double xCoord = x + rand.nextDouble();
+				final double yCoord = y + rand.nextDouble();
+
+				// Get the subsample position and construct a ray from it
+				final Vector screenSpacePosition = Vector.sum(origin, iHat.scale(xCoord), jHat.scale(yCoord));
+				final Ray cast = new Ray(position, screenSpacePosition);
+
+				pixel = Color.add(pixel, scene.castRay(cast, frustum, depth));
+			}
+
+			// Color correction
+			pixel = pixel.reduce(sampling);
+
+			// This brightens the image
+			//pixel = pixel.applyTransform(v -> Math.sqrt(v));
+
+			// This darkens the image
+			//pixel = pixel.applyTransform(v -> v*v);
+
+			return pixel;
+		}
+	}
+
 	/**
 	 * A static Random object with which to generate random floats [0,1).
 	 */
@@ -248,63 +313,15 @@ public class Camera {
 		if (timer != null)
 			timer.eventStart("Capture Scene");
 
-		// Iterate over every pixel on our virtual screen
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				if (timer != null)
-					timer.gridEventStart(x, y);
-
-				this.film[x][y] = getPixel(scene, x, y).quantize();
-
-				if (timer != null)
-					timer.gridEventStop(x, y);
-			}
+		// Iterate over every row on our virtual screen
+		for (int row = 0; row < height; row++) {
+			RowMaker pixel = new RowMaker(scene, row);
+			pixel.run();
 		}
 
 		if (timer != null)
 			timer.eventStop("Capture Scene");
 
 		return developFilm();
-	}
-
-	/**
-	 * Helper method to sample our scene multiple times defined by
-	 * {@link Camera#sampling} and average the value. It constructs the
-	 * {@link Ray} using the screen space coordinate vectors.
-	 * 
-	 * @param scene
-	 *            Scene to sample
-	 * @param x
-	 *            X coordinate on our virtual screen
-	 * @param y
-	 *            Y coordinate on our virtual screen
-	 * @return Average {@link Color} of this pixel
-	 */
-	private Color getPixel(Scene scene, final int x, final int y) {
-		Color pixel = Color.black();
-
-		// Collect samples of the scene for this current pixel
-		for (int s = 0; s < sampling; s++) {
-			// Randomly generate offsets for the current subsample
-			final double xCoord = x + rand.nextDouble();
-			final double yCoord = y + rand.nextDouble();
-
-			// Get the subsample position and construct a ray from it
-			final Vector screenSpacePosition = Vector.sum(origin, iHat.scale(xCoord), jHat.scale(yCoord));
-			final Ray cast = new Ray(position, screenSpacePosition);
-
-			pixel = Color.add(pixel, scene.castRay(cast, frustum, depth));
-		}
-
-		// Color correction
-		pixel = pixel.reduce(sampling);
-		
-		// This brightens the image
-		//pixel = pixel.applyTransform(v -> Math.sqrt(v));
-		
-		// This darkens the image
-		//pixel = pixel.applyTransform(v -> v*v);
-
-		return pixel;
 	}
 }
