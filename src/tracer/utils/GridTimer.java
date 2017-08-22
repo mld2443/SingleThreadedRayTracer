@@ -153,9 +153,12 @@ public class GridTimer implements GridTimerDelegate {
 			long totalElapsedTime = lastFinished - firstStarted;
 			
 			double speedup = (double)netGridTime  / (double)totalElapsedTime;
-			double average = (double)netGridTime  / (double)(width * height);
+			double drawAverage = (double)netGridTime  / (double)(width * height);
+			double average = (double)totalElapsedTime  / (double)(width * height);
 			
-			logger.println("Calculated Speedup = " + speedup + "\t Average time per pixel = " + average);
+			logger.println("Estimated speedup factor:\t" + speedup);
+			logger.println("Average time to draw pixel:\t" + drawAverage);
+			logger.println("Average time per pixel:\t" + average);
 		}
 	}
 
