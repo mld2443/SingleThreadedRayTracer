@@ -133,6 +133,30 @@ public class GridTimer implements GridTimerDelegate {
 		grid[x][y].finish();
 	}
 
+
+	@Override
+	public double calculateSpeedup() {
+		long netGridTime = 0, elapsedTime;
+		long firstStarted = grid[0][0].startTime, lastFinished = grid[0][0].stopTime;
+		
+		for (Event[] row : grid) {
+			for (Event e : row) {
+				netGridTime += e.elapsedTime;
+				
+				if (e.startTime < firstStarted)
+					firstStarted = e.startTime;
+				if (e.stopTime > lastFinished)
+					lastFinished = e.stopTime;
+			}
+		}
+		
+		elapsedTime = lastFinished - firstStarted;
+		
+		double speedup = (double)netGridTime  / (double)elapsedTime;
+		
+		return speedup;
+	}
+
 	/**
 	 * Computes a red or cyan color value based on a simple interpolation
 	 * between 0.0 and 1.0.

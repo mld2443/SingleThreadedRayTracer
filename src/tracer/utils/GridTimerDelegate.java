@@ -56,4 +56,6 @@ public interface GridTimerDelegate {
 	 *            Y position of the task
 	 */
 	public void gridEventStop(final int x, final int y);
+	
+	public double calculateSpeedup();
 }
