@@ -102,7 +102,7 @@ public class Scene {
 	 * 
 	 * @param ray
 	 *            The initial {@link Ray} to consider in the algorithm.
-	 * @param window
+	 * @param frustum
 	 *            The {@link Range} in which we consider ray-object collisions
 	 * @param depth
 	 *            The number of recursive steps our ray will take before being
@@ -111,31 +111,46 @@ public class Scene {
 	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting">Wikipedia: Ray
 	 *      Casting</a>
 	 */
-	public Color castRay(final Ray ray, final Range<Double> window, final int depth) {
-		// Base case; try changing the color and seeing what you get!
-		if (depth <= 0)
-			return Color.black();
+	public Color castRay(final Ray ray, final Range<Double> frustum, final int depth) {
+		Ray dir = ray;
+		Range<Double> window = frustum;
+		LinkedList<Color> colors = new LinkedList<>();
+		
+		while (true) {
+			// Base case; try changing the color and seeing what you get!
+			if (colors.size() >= depth)
+				return Color.black();
+	
+			// Check to see if our ray hits an object, or just shoots into the sky
+			final Intersection nearest = findNearest(dir, window);
+	
+			// If we do not hit anything, return our sky color.
+			if (nearest == null)
+				break;
+	
+			// Get the color of that object and the bounce vector for recursion if
+			// there is recursion
+			colors.add(nearest.material.color);
+			dir = nearest.material.scatter(dir, nearest.point, nearest.normal, refractionIndex);
+	
+			// If the ray is absorbed for any reason while scattering, return black
+			if (dir == null)
+				return Color.black();
+			
+			// Finally, we blend colors recursively
+			window = new Range<>(window.lower, window.upper - nearest.distance);
+		}
+		
+		Color sky = skyBox(dir.direction);
+		
+		double r = sky.r, g = sky.g, b = sky.b;
+		for (Color c : colors) {
+			r *= c.r;
+			g *= c.g;
+			b *= c.b;
+		}
 
-		// Check to see if our ray hits an object, or just shoots into the sky
-		final Intersection nearest = findNearest(ray, window);
-
-		// If we do not hit anything, return our sky color.
-		if (nearest == null)
-			return skyBox(ray.direction);
-
-		// Get the color of that object and the bounce vector for recursion if
-		// there is recursion
-		final Color sample = nearest.material.color;
-		final Ray bounce = nearest.material.scatter(ray, nearest.point, nearest.normal, refractionIndex);
-
-		// If the ray is absorbed for any reason while scattering, return black
-		if (bounce == null)
-			return Color.black();
-
-		// Finally, we blend colors recursively
-		Range<Double> newWindow = new Range<>(window.lower, window.upper - nearest.distance);
-
-		return Color.mix(sample, castRay(bounce, newWindow, depth - 1));
+		return new Color(r,g,b);
 	}
 
 	/**

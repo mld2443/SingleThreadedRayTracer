@@ -33,7 +33,7 @@ public class Dielectric extends Material {
 	 * @see <a href="https://en.wikipedia.org/wiki/Refractive_index">Wikipedia:
 	 *      Refractive Index</a>
 	 */
-	public Dielectric(final Color color, final float refractionIndex) {
+	public Dielectric(final Color color, final double refractionIndex) {
 		// Since refracted materials tend to appear darker, we lighten them up
 		// so the color appears correct
 		super(color.applyTransform(channel -> Math.sqrt(channel)), false);
