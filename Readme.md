@@ -25,7 +25,7 @@ These several *billion* rays took hours. Relatively speaking... that's very slow
 * This code is single-threaded.
 * Ray tracing techniques are *VERY* expensive relative to modern rasterization techniques (depth buffering).
   * Those very techniques are responsible for how easy it is to implement new features, and how good they look.
-* I have not implemented many some understood optimization techniques that would help here, such as [Octrees](https://en.wikipedia.org/wiki/Octree), [Binary Spatial Partitioning Trees](https://en.wikipedia.org/wiki/Binary_space_partitioning), and Shape hierachies. There are many other techniques to speed up ray tracing, but given the simplicity of the objects and scene we're rendering, there's likely little many of them would do.
+* I have not implemented some well understood optimization techniques that would help here, such as [Octrees](https://en.wikipedia.org/wiki/Octree), [Binary Spatial Partitioning Trees](https://en.wikipedia.org/wiki/Binary_space_partitioning), and Shape hierachies. There are many other techniques to speed up ray tracing, but given the simplicity of the objects and scene we're rendering, there's likely little many of them would do.
 
 #### Can it go faster?
 Absolutely. There are at least 3 fundamentally different ways I can think of to multi-thread the application. This is actually quite open-ended.
